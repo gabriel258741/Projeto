@@ -18,7 +18,7 @@ case $opcao in
 	2) aarq ;;
 	3) cdir ;;
 	4) adir ;;
-	5) ./list ;;
+	5) ./list.sh ;;
        	6) adon ;;
 	7) aper ;;
 	8) ./menu.sh ;;
@@ -73,4 +73,4 @@ dialog							\
 	--msgbox "Diretório apagado com sucesso" 0 0
 menu
 }
-
+menu
