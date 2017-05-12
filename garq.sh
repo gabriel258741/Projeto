@@ -18,7 +18,7 @@ case $opcao in
 	2) aarq ;;
 	3) cdir ;;
 	4) adir ;;
-	5) ./list.sh ;;
+	5) ./list ;;
        	6) adon ;;
 	7) aper ;;
 	8) ./menu.sh ;;
@@ -31,10 +31,12 @@ arq=$( dialog						\
 	--title "Criar arquivo"				\
 	--inputbox "Digite o nome do arquivo:"		\
 	0 0 )
-> $arq
-dialog							\
-	--title "Mensagem"				\
-	--msgbox "Arquivo criado com sucesso" 0 0
+cat ./$arq
+case $? in
+	0) dialog --msgbox "O arquivo ja existe" 0 0; carq;;
+	1) > $arq; dialog --msgbox "O arquivo foi criado com sucesso" 0 0;;
+	*) dialog --msgbox "Não foi possivel criar o arquivo" 0 0;;
+esac
 menu
 }
 function aarq(){

@@ -1,31 +1,34 @@
 #!/bin/bash
 clear
-function erro(){
-	dialog						\
-		--title "Acesso negado"			\
-		--msgbox "Tente novamente." 0 0
+function SENHA(){
+if [ $pass == "senai132" ]; then
+	bash ./menu.sh 
+else
+	dialog --msgbox "Acesso Negado" 0 0
 	login
+fi
 }
-function senha(){
-[ $passw == $pass ] && ./menu.sh || erro
-}
+
 function login(){
+#usuario=("alisson" "daniele" "gabriel" "leandro" "matheus h" "matheus n")
 user=$( dialog						\
-	--stdout					\
+ 	--stdout					\
 	--title "LOGIN"					\
 	--inputbox "Digite seu usuário:" 0 0 )
+
 pass=$( dialog						\
 	--stdout					\
-	--title "LOGIN"					\
+	--title "PASSWORD"				\
 	--passwordbox "Digite sua senha:" 0 0 )
 case $user in
-	alisson) passw="7777"; senha;;
-	daniele) passw="7769"; senha;;
-	gabriel) passw="8569"; senha;;
-	leandro) passw="7666"; senha;;
-	"matheus h") passw="6669"; senha;;
-	"matheus n") passw="1234"; senha;;
-	*) erro;;
+	alisson|daniele|gabriel|leandro|"matheus h"|"matheus n") SENHA ;;
+	*) dialog --msgbox "Acesso Negado" 0 0; login ;;
 esac
+
 }
 login
+
+#until [ ${usuario[0]} == $user] && [ $senha == "senai132" ]; do
+#	login
+#done
+

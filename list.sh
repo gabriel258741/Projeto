@@ -25,46 +25,45 @@ arq=$( dialog						\
 	--title "Listar Diretório"			\
 	--inputbox "Digite o nome/local do diretório:"	\
 	0 0 )
-ls $arq > /tmp/listar.txt
 dialog 							\
 	--title "Listagem"				\
-	--textbox /tmp/listar.txt 0 0
+	--text
 menu
 }
-function list2(){
+function aarq(){
 arq=$( dialog						\
 	--stdout					\
-	--title "Listar Diretório"			\
-	--inputbox "Digite o nome/local do diretório:"		\
+	--title "Apagar arquivo"			\
+	--inputbox "Digite o nome do arquivo:"		\
 	0 0 )
-ls -lh $arq > /tmp/listar.txt
+rm -rf $arq
 dialog							\
-	--title "Listagem"				\
-	--textbox /tmp/listar.txt 0 0
+	--title "Mensagem"				\
+	--msgbox "Arquivo apagado com sucesso" 0 0
 menu
 }
-function list3(){
+function cdir(){
 arq=$( dialog						\
 	--stdout					\
-	--title "Listar Diretório"			\
-	--inputbox "Digite o nome/local do diretório:"		\
+	--title "Criar diretório"			\
+	--inputbox "Digite o nome do diretório:"	\
 	0 0 )
-ls -a $arq > /tmp/listar.txt
+mkdir $arq
 dialog							\
-	--title "Listagem"				\
-	--textbox /tmp/listar.txt 0 0
+	--title "Mensagem"				\
+	--msgbox "Diretório criado com sucesso" 0 0
 menu
 }
-function list4(){
+function adir(){
 arq=$( dialog						\
 	--stdout					\
-	--title "Listar Diretório"			\
-	--inputbox "Digite o nome/local do diretório:"		\
+	--title "Apagar diretório"			\
+	--inputbox "Digite o nome do diretório:"	\
 	0 0 )
-ls -l $arq > /tmp/listar.txt
+rmdir -rf $arq
 dialog							\
-	--title "Listagem"				\
-	--textbox /tmp/listar.txt 0 0
+	--title "Mensagem"				\
+	--msgbox "Diretório apagado com sucesso" 0 0
 menu
 }
-menu
+
