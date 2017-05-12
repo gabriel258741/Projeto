@@ -1,16 +1,17 @@
 #!/bin/bash
 clear
-function SENHA(){
-if [ $pass == "senai132" ]; then
-	bash ./menu.sh 
+function password(){
+if [ $pass == $senha ]; then
+	bash /Projeto/menu.sh
 else
 	dialog --msgbox "Acesso Negado" 0 0
 	login
 fi
+dialog --title "Impossivel fazer login" --msgbox "Limite de tentativas excedido" 0 0
+exit 0
 }
 
 function login(){
-#usuario=("alisson" "daniele" "gabriel" "leandro" "matheus h" "matheus n")
 user=$( dialog						\
  	--stdout					\
 	--title "LOGIN"					\
@@ -21,14 +22,15 @@ pass=$( dialog						\
 	--title "PASSWORD"				\
 	--passwordbox "Digite sua senha:" 0 0 )
 case $user in
-	alisson|daniele|gabriel|leandro|"matheus h"|"matheus n") SENHA ;;
+	alisson) senha="7777"; password;;
+	daniele) senha="7769"; password;;
+	gabriel) senha="8569"; password;;
+	leandro) senha="7666"; password;;
+	"matheus h") senha="1234"; password;;
+	"matheus n") senha="6669"; password;;
 	*) dialog --msgbox "Acesso Negado" 0 0; login ;;
 esac
-
 }
 login
 
-#until [ ${usuario[0]} == $user] && [ $senha == "senai132" ]; do
-#	login
-#done
 

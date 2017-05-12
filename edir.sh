@@ -1,36 +1,8 @@
 #!/bin/bash
-function entrar(){
-user="rokukishi"
-pass="adglmm"
-x=3
-while (( $x > 0 )); do
-usuario=$( dialog					\
-		--stdout				\
-		--title "Acesso Adiministrador"		\
-		--inputbox "Usuário:" 0 0 )
-senha=$( dialog						\
-		--stdout				\
-		--title "Acesso Adiministrador"		\
-		--passwordbox "Senha:" 0 0 )
-	if [ $usuario == $user ] && [ $senha == $pass ]; then
-		dialog --msgbox "Acesso permitido" 0 0
-		if [ $n == "d" ]; then
-			adon
-		else
-			bash /Projeto/aper.sh
-		fi
-	else
-		dialog --msgbox "Acesso negado" 0 0
-		let x=($x-1)
-	fi
-done
-dialog --msgbox "Sem acesso superior" 0 0
-menu
-}
 function menu(){
 opcao=$( dialog						\
 	--stdout					\
-	--title "Gerenciador de Arquivo"		\
+	--title "Gerenciar Diretório"			\
 	--menu "O que deseja fazer?"	 		\
 	0 0 0						\
 	1 "Criar Arquivo"				\
@@ -48,10 +20,9 @@ case $opcao in
 	3) cdir ;;
 	4) adir ;;
 	5) bash /Projeto/list.sh ;;
-	6) edir ;;
-       	7) n="d"; entrar ;;
-	8) n="p"; entrar ;;
-	9) bash /Projeto/menu.sh ;;
+       	6) n="d"; entrar ;;
+	7) n="p"; entrar ;;
+	8) bash /Projeto/aper.sh ;;
 	*) exit 0 ;;
 esac
 }
@@ -59,7 +30,7 @@ function carq(){
 arq=$( dialog						\
 	--stdout					\
 	--title "Criar arquivo"				\
-	--inputbox "Digite o nome/local do arquivo:"		\
+	--inputbox "Digite o nome do arquivo:"		\
 	0 0 )
 cat $arq
 case $? in
@@ -73,7 +44,7 @@ function aarq(){
 arq=$( dialog						\
 	--stdout					\
 	--title "Apagar arquivo"			\
-	--inputbox "Digite o nome/local do arquivo:"		\
+	--inputbox "Digite o nome do arquivo:"		\
 	0 0 )
 cat $arq
 case $? in
@@ -87,11 +58,11 @@ function cdir(){
 arq=$( dialog						\
 	--stdout					\
 	--title "Criar diretório"			\
-	--inputbox "Digite o nome/local do diretório:"	\
+	--inputbox "Digite o nome do diretório:"	\
 	0 0 )
 cd $arq
 case $? in
-	0) dialog --msgbox "O diretório ja existe" 0 0; cd /Projeto; cdir;;
+	0) dialog --msgbox "O diretório ja existe" 0 0; cd ..; cdir;;
 	1) mkdir $arq; dialog --msgbox "O diretório foi criado com sucesso" 0 0;;
 	*) dialog --msgbox "Não foi possivel criar o diretório" 0 0;;
 esac
@@ -101,12 +72,12 @@ function adir(){
 arq=$( dialog						\
 	--stdout					\
 	--title "Apagar diretório"			\
-	--inputbox "Digite o nome/local do diretório:"	\
+	--inputbox "Digite o nome do diretório:"	\
 	0 0 )
 cd $arq
 case $? in
 	1) dialog --msgbox "O diretório não existe" 0 0; adir;;
-	0) cd /Projeto; rmdir $arq;;
+	0) cd ..; rmdir $arq;;
 esac
 if [ $? == "0" ]; then
 	dialog --msgbox "O diretório foi apagado com sucesso" 0 0
@@ -121,7 +92,7 @@ function adon(){
 arq=$( dialog						\
 	--stdout					\
 	--title "Alterar dono"				\
-	--inputbox "Digite o nome/local do diretório/arquivo:"\
+	--inputbox "Digite o nome do diretório/arquivo:"\
 	0 0 )
 arq2=$( dialog						\
 	--stdout					\

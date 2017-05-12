@@ -10,10 +10,10 @@ opcao=$( dialog						\
 	4 "Gerenciador de Dispositivos"			\
 	5 "Gerenciador de repositórios"	)
 case $opcao in
-	1) ./garq.sh;;
-	2) ./gusr.sh;;
-	3) ./gred.sh;;
-	4) ./gdis.sh;;
-	5) ./grep.sh;;
+	1) bash /Projeto/garq.sh;;
+	2) bash /Projeto/gusr.sh;;
+	3) bash /Projeto/gred.sh;;
+	4) bash /Projeto/gdis.sh;;
+	5) bash /Projeto/grep.sh;;
 	*) exit 0
 esac
