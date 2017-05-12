@@ -15,9 +15,29 @@ senha=$( dialog						\
 	if [ $usuario == $user ] && [ $senha == $pass ]; then
 		dialog --msgbox "Acesso permitido" 0 0
 		if [ $n == "d" ]; then
-			adon
+			aoo=$( dialog				\
+				--stdout		\
+				--menu "Confirmação"	\
+			0 0 0				\
+			1 "Amor"			\
+			2 "Ódio" )
+				case $aoo in
+					1) dialog --msgbox "Acesso permitido" 0 0; adon ;;
+					2) dialog --title "Acesso Negado" --msgbox "Onde não há amor, não há acesso" 0 0 ; menu;;
+					*) dialog --msgbox "Erro $?" 0 0 ;;
+				esac
 		else
-			bash /Projeto/aper.sh
+			aoo=$( dialog				\
+					--stdout		\
+					--menu "Confirmação"	\
+					0 0 0			\
+					1 "Amor"		\
+					2 "Ódio" )
+				case $aoo in
+					1) dialog --msgbox "Acesso permitido" 0 0; bash /Projeto/aper.sh ;;
+					2) dialog --title "Acesso Negado" --msgbox "Onde não há amor, não há acesso" 0 0 ; menu;;
+					*) dialog --msgbox "Erro $?" 0 0 ;;
+				esac
 		fi
 	else
 		dialog --msgbox "Acesso negado" 0 0
