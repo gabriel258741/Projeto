@@ -41,7 +41,12 @@ opcao=$( dialog						\
 	6 "Entrar no diretório"				\
 	7 "Alterar dono"				\
 	8 "Alterar permissões"				\
-	9 "Voltar" )
+	9 "Agrupar arquivos/diretórios"			\
+	10 "Desagrupar arquivos/diretórios"		\
+	11 "Compactar Arquivo/Diretório"		\
+	12 "Descompactar Arquivo/Diretório"		\
+	13 "Editar arquivo"				\
+	14 "Voltar" )
 case $opcao in
 	1) carq ;;
 	2) aarq ;;
@@ -51,7 +56,16 @@ case $opcao in
 	6) edir ;;
        	7) n="d"; entrar ;;
 	8) n="p"; entrar ;;
-	9) bash /Projeto/menu.sh ;;
+	9) x=0 ; name=$( dialog			\
+		--stdout				\
+		--title "Agrupar arquivos/diretórios"	\
+		--inputbox "Nome do arquivo final:"	\
+		0 0 ); aaed;;
+	10) daed ;;
+	11) comp ;;
+	12) desc ;;
+	13) edit ;;
+	14) bash /Projeto/menu.sh ;;
 	*) exit 0 ;;
 esac
 }
@@ -145,6 +159,34 @@ cd $arq
 case $? in
 	0) bash /Projeto/edir.sh;;
 	1) dialog --msgbox "Diretório não encontrado, tente novamente" 0 0; edir;;
+	*) dialog --msgbox "Erro $?" 0 0;;
+esac
+}
+function aaed(){
+arq=$( dialog 						\
+		--stdout				\
+		--title "Agrupar arquivos/diretórios"	\
+		--menu "Adicionar/Agrupar"		\
+		0 0 0					\
+		1 "Adicionar arquivo/diretório"		\
+		2 "Agrupar"				\
+		3 "Voltar" )
+case $arq in
+	1) nome[$x]=$( dialog --stdout --title "Adicionar arquivo/diretório" --inputbox "Nome:" 0 0 ); let x=($x+1); aaed;;
+	2) tar -c $name.tar ${nome[@]};;
+	*) dialog --msgbox "Erro $?" 0 0;;
+esac
+}
+function daed(){
+arq=$( dialog 						\
+		--stdout				\
+		--title "Nome do arquivo"		\
+		--inputbox "Nome(Não coloque a extensão .tar no final do arquivo"	\
+		0 0 )
+tar -x $arq.tar
+case $? in
+	0) dialog --msgbox "Extraido com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Impossivel extrair arquivo, arquivo não existe" 0 0; daed;;
 	*) dialog --msgbox "Erro $?" 0 0;;
 esac
 }
