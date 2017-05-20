@@ -1,4 +1,4 @@
-3#!/bin/bash
+#!/bin/bash
 opcao=$( dialog						\
 	--stdout					\
 	--title "Menu"					\

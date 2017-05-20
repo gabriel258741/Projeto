@@ -4,21 +4,22 @@ function menu(){
 opcao=$( dialog						\
 	--stdout					\
 	--title "MENU"					\
-	--menu "Escolha uma opão"			\
+	--menu "Escolha uma opção"			\
 	0 0 0						\
 	1 "Instalar Aplicativos"			\
 	2 "Apagar Aplicativos"				\
 	3 "Exporta GITHUB"				\
 	4 "Atualizar Aplicativo"			\
 	5 "Atualizar Repositorios"			\
-	6 "VOLTAR")
-case $opcao in
+	6 "voltar")
+case $opcao in 
 	1) instapk ;;
 	2) apgAPK ;;
 	3) expGIT ;;
 	4) atlAPK ;;
 	5) atlREP ;;
-	*) exit 0  ;;
+	6) bash /Projeto/menu.sh ;;	
+	*) exit 0 ;;
 esac
 }
 function instapk(){

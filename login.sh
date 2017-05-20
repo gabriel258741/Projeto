@@ -7,8 +7,7 @@ else
 	dialog --msgbox "Acesso Negado" 0 0
 	login
 fi
-dialog --title "Impossivel fazer login" --msgbox "Limite de tentativas excedido" 0 0
-exit 0
+
 }
 
 function login(){

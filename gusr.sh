@@ -1,4 +1,4 @@
-!#/bin/bash
+#/bin/bash
 function MENU(){
 OPCAO=$( dialog						\
 	--stdout					\
@@ -9,24 +9,21 @@ OPCAO=$( dialog						\
 	3 "Criar grupo"					\
 	4 "apagar grupo"				\
 	5 "Alterar Senha"				\
-	6 "Mostrar passwd"				\
-	7 "Alterar usuário do grupo"		        \
-	8 "Mostrar usuários"				\
-	9 "Mostrar grupos"				\
-	10 "Voltar")
-
+	6 "Alterar usuário do grupo"        		\
+	7 "Mostrar usuários"				\
+	8 "Mostrar grupos"				\
+	9 "Voltar" )
 case $OPCAO in
  	1) CUSR ;;
 	2) AUSR ;;
 	3) CGRP ;;
 	4) AGRP ;;
 	5) APAS	;;
-	6) PAWD ;;
-	7) AUGR ;;
-	8) MUSR ;;
-	9) MGRP ;;
-	10) bash /Projeto/menu.sh ;;
-	*) dialog --msgbox "Opção Invalida. Digite novamente" ;;
+	6) AUGR ;;
+	7) MUSR ;;
+	8) MGRP ;;
+	9) bash /Projeto/menu.sh ;;
+	*) dialog --msgbox "Opção Invalida. Digite novamente" 0 0 ; MENU;;
 esac
 }
 CUSR(){
@@ -78,6 +75,7 @@ passwd $NOME
 case $? in
 	0) dialog --
 	COCO=$(	dialog --stdout --passwordbox "Digite a senha novamente" 0 0)
+esac
 case $? in
 	0) dialog --msgbox "Senha do usuário atual modificada" 0 0; MENU;;
 	1) dialog --msgbox "Tente novamente!" 0 0; APAS;;
@@ -85,12 +83,8 @@ case $? in
 	*) dialog --msgbox "$?" 0 0;;
 
 esac
+}
 
-}
-PAWD(){
-	dialog --textbox /etc/passwd 0 0
-	MENU
-}
 AUGR(){
 	NOME=$(	dialog --stdout --inputbox "Digite o nome do usuario" 0 0)
 	GRUPO=$( dialog --stdout --inputbox "Digite o nome do grupo" 0 0)
@@ -101,8 +95,10 @@ case $? in
 	1) dialog --msgbox "Tente novamente!" 0 0; AUGR;;
 esac
 }
+
 MUSR(){
 	dialog --textbox /etc/passwd 0 0
+	MENU
 }
 MGRP(){
 	dialog --textbox /etc/group 0 0
