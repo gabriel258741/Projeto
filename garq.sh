@@ -301,4 +301,29 @@ case $saida in
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
+function edit(){
+opcao=$( dialog 						\
+		--stdout					\
+		--title "Arquivo/local"				\
+		--inputbox "Nome:" 0 0 )
+editor=$( dialog						\
+		--stdout					\
+		--title "Editor"				\
+		--menu "Escolha o editor de texto:"		\
+		0 0 0						\
+		1 "NANO"					\
+		2 "VI"						\
+		3 "Voltar" )
+case $editor in
+	1) nano $opcao; volta=$?;;
+	2) vi $opcao; volta=$?;;
+	3) bash /Projeto/garq.sh;;
+	*) dialog --msgbox "Opção invalida" 0 0;;
+esac
+case $volta in
+	0) dialog --msgbox "Editado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Arquivo não existe" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
+esac
+}
 menu

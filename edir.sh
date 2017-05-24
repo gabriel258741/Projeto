@@ -77,7 +77,7 @@ case $opcao in
 	4) adir ;;
 	5) bash /Projeto/list.sh ;;
 	6) edir ;;
-       	7) cd -; bash /Projeto/menu.sh;;
+       	7) cd -; bash /Projeto/garq.sh;;
 	8) copa ;;
 	9) mova ;;
 	10) n="d"; entrar ;;
@@ -282,6 +282,31 @@ case $num2 in
 	0) dialog --msgbox "Compactado com sucesso" 0 0; menu;;
 	1) dialog --msgbox "Não foi possivel compactar" 0 0; menu;;
 	*) dialog --msgbox "erro $?" 0 0; menu;;
+esac
+}
+function edit(){
+opcao=$( dialog 					\
+		--stdout				\
+		--title "Arquivo/local" 		\
+		--inputbox "Nome:" 0 0 )
+editor=$( dialog					\
+		--stdout				\
+		--title "Editor"			\
+		--menu "Escolha o editor de arquivo:"	\
+		0 0 0					\
+		1 "NANO"				\
+		2 "VI"					\
+		3 "Voltar" )
+case $editor in
+	1) nano $opcao; volta=$?;;
+	2) vi $opcao; volta=$?;;
+	3) menu;;
+	*) dialog --msgbox "Opção inválida" 0 0;;
+esac
+case $volta in
+	0) dialog --msgbox "Arquivo editado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Arquivo não existe" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 menu

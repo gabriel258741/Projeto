@@ -1,4 +1,4 @@
-#!/bin/bash
+	#!/bin/bash
 clear
 function menu(){
 opcao=$( dialog						\
@@ -11,14 +11,16 @@ opcao=$( dialog						\
 	3 "Exporta GITHUB"				\
 	4 "Atualizar Aplicativo"			\
 	5 "Atualizar Repositorios"			\
-	6 "voltar")
+	6 "Listar Pacotes"				\
+	7 "Voltar" )
 case $opcao in 
 	1) instapk ;;
 	2) apgAPK ;;
 	3) expGIT ;;
 	4) atlAPK ;;
 	5) atlREP ;;
-	6) bash /Projeto/menu.sh ;;	
+	6) lista ;;
+	7) bash /Projeto/menu.sh ;;	
 	*) exit 0 ;;
 esac
 }
@@ -28,11 +30,13 @@ APK=$( dialog						\
 	--title "Instalar aplicativo"			\
 	--inputbox "Nome do aplicativo"			\
 	0 0)
-apt-get install $APK
-	( dialog 					\
-	--title "Instalando aplicativo"			\
-	--gauge "Instalando aplicativo"			\
-	0 0)
+apt-get --force-yes install $APK -y
+case $? in
+	0) dialog --msgbox "Instalado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Impossivel instalar aplicativo" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
+esac
+menu
 }
 function apgAPK(){
 APG=$( dialog						\
@@ -40,15 +44,40 @@ APG=$( dialog						\
 	--title "Remover aplicativo"			\
 	--inputbox "Nome do aplicativo"			\
 	0 0)
-apt-get remove $APG
+apt-get remove -y $APG
+parg
 }
 function expGIT(){
-apt-get install git
+dialog					\
+	--title "Informação"			\
+	--yesno "È necessário fazer a instalação do git. Continuar?" 0 0
+case $? in
+	0) apt-get --force-yes install git -y; menu;;
+	1) bash /Projeto/grep.sh; menu;;
+	*) dialog --msgbox "erro $?" 0 0; menu;;
+esac
 }
 function atlAPK(){
 apt-get update 
+menu
 }
 function atlAPK(){
 apt-get upgrade
+menu
+}
+function parg(){
+apt-get purge $APK -y
+case $? in
+	0) dialog --msgbox "Instalado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Impossivel instalar aplicativo" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
+esac
+menu
+}
+function lista(){
+apt list --installed | nl > /tmp/listapacotes.txt
+dialog --textbox /tmp/listapacotes.txt 0 0
+menu
 }
 menu
+
