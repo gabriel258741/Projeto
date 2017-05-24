@@ -89,5 +89,28 @@ case $? in
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
+function ATHS (){
+	dialog                        	 	\
+	--title "Hostname" 			\
+	--textbox /etc/hostname 0 0
+int=$( dialog					\
+		--stdout			\
+		--title "Altere o Host"		\
+		--inputbox "Digite o novo nome:"	\
+		0 0 )
+case $? in
+	0) echo "$int" > /etc/hostname; volta=$?;;
+	1) dialog --msgbox "Opção inválida" 0 0;;
+ 	*) dialog --msgbox "Erro $?" 0 0;;
+esac
+case $volta in
+	0) dialog --infobox "Host alterado com sucesso" 0 0; menu;;
+	1) dialog --infobox "Não foi possivel alterar" 0 0; menu;;
+	*) dialog --infobox "Erro $?" 0 0; menu;;
+esac
+}
 menu
+function DHCP(){
 
+}
+menu
