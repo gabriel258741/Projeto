@@ -5,9 +5,9 @@ OPCAO=$(dialog					\
 	--menu "Gerenciador de dispositivos"	\
 	0 0 0					\
 	1 "Informações da cpu"			\
-	2 "Exibir Disco e partições"		\
-	3 "Visualizar Endereço IP"		\
-	4 "Alterar endereço IP/Máscara" 	\
+	2 "Informações de disco e partições"	\
+	3 "Visualizar modulos carregados"	\
+	4 "Informações do barramento PCI" 	\
 	5 "Alterar hostname"			\
 	6 "DHCP"				\
 	7 "Gateway"				\
@@ -17,8 +17,8 @@ OPCAO=$(dialog					\
 case $OPCAO in
 	1) INFCP ;;
 	2) EXDP ;;
-	3) VIP  ;;
-	4) ATIP ;;
+	3) MODC ;;
+	4) PCI2 ;;
 	5) ATHS ;;
 	6) DHCP ;;
 	7) GTWY ;;
@@ -50,6 +50,31 @@ case $? in
 	1) dialog --infobox "Tente novamente" 0 0; menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 
+esac
+}
+menu
+function MODC(){
+	lsmod > /tmp/cpuinf.txt
+	dialog --textbox /tmp/cpuinf.txt 0 0
+
+case $? in
+
+	0) menu;;
+	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	*) dialog --infobox "erro: $?" 0 0; menu;;
+
+esac
+}
+menu
+function PCI2(){
+	lspci -vv > /tmp/cpuinf.txt
+	dialog --textbox /tmp/cpuinf.txt 0 0
+
+case $? in
+
+	0) menu;;
+	1) dialog --infobox "Tente novamente" 0 0; PCI2;;
+	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }
 menu
