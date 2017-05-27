@@ -11,9 +11,9 @@ opcao=$( dialog						\
 	5 "Gerenciador de repositórios"	)
 case $opcao in
 	1) bash /Projeto/edir.sh;;
-	2) bash /Projeto/gusr.sh;;
-	3) bash /Projeto/gred.sh;;
-	4) bash /Projeto/gdis.sh;;
-	5) bash /Projeto/grep.sh;;
+	2) bash /Projeto/gusr2.sh;;
+	3) bash /Projeto/gred2.sh;;
+	4) bash /Projeto/gdis2.sh;;
+	5) bash /Projeto/grep2.sh;;
 	*) exit 0
 esac

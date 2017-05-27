@@ -23,6 +23,7 @@ case $OPCAO in
 	7) GTWY ;;
 	8) PING	;;
 	9) VIDARQ ;;
+	*) dialog --msgbox "Opção inválida" 0 0; menu;;
 esac
 }
 function INFCP(){
@@ -30,11 +31,9 @@ function INFCP(){
 	dialog --textbox /tmp/cpuinf.txt 0 0
 
 case $? in
-
 	0) menu;;
 	1) dialog --infobox "Tente novamente" 0 0; menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
-
 esac
 }
 menu

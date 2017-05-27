@@ -25,6 +25,7 @@ case $OPCAO in
 	8) PING	;;
 	9) VIDARQ ;;
 	10) bash /Projeto/menu.sh ;;
+	*) dialog --msgbox "Opção inválida" 0 0; menu;;
 esac
 }
 function INFCP(){

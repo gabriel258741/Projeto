@@ -79,7 +79,7 @@ case $opcao in
 	3) cdir ;;
 	4) adir ;;
 	5) vera ;;
-	6) bash /Projeto/list.sh ;;
+	6) bash /Projeto/list2.sh ;;
 	7) edir ;;
 	8) cd -; menu;;
 	9) copa ;;
@@ -96,8 +96,8 @@ case $opcao in
 	16) desc ;;
 	17) edit ;;
 	18) cd /; menu;;
-	19) cd /Projeto; bash ./garq.sh;;
-	20) bash /Projeto/menu.sh ;;
+	19) cd /Projeto; bash /Projeto/menu.sh;;
+	20) bash /Projeto/menu2.sh ;;
 	*) dialog --msgbox "Opção inválida" 0 0 ; menu;;
 esac
 }
@@ -339,7 +339,7 @@ case $? in
 esac
 cd $arq
 case $? in
-	0) menu;;
+	0) bash /Projeto/menu2.sh;;
 	1) dialog --msgbox "Diretório não encontrado, tente novamente" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac

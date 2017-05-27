@@ -57,7 +57,7 @@ opcao=$( dialog						\
 	2 "Apagar arquivo"				\
 	3 "criar diretório"				\
 	4 "apagar diretório"				\
-	5 "Mostrar conteúdo de arquivo"			\
+	5 "Mostrar conteúdo de arquivo"				\
 	6 "listar diretório"				\
 	7 "Entrar no diretório"				\
 	8 "Copiar arquivo/diretório"			\
@@ -69,8 +69,7 @@ opcao=$( dialog						\
 	14 "Compactar Arquivo/Diretório"		\
 	15 "Descompactar Arquivo/Diretório"		\
 	16 "Editar arquivo"				\
-	17 "Ir para a raiz"				\
-	18 "Voltar para o menu" )
+	17 "Voltar" )
 case $opcao in
 	1) carq ;;
 	2) aarq ;;
@@ -92,9 +91,8 @@ case $opcao in
 	14) comp ;;
 	15) desc ;;
 	16) edit ;;
-	17) cd /; bash /Projeto/edir.sh;;
-	18) bash /Projeto/menu.sh ;;
-	*) dialog --msgbox "Opção inválida" 0 0 ; menu;;
+	17) bash /Projeto/menu.sh ;;
+	*) exit 0 ;;
 esac
 }
 function carq(){
@@ -335,7 +333,7 @@ case $? in
 esac
 cd $arq
 case $? in
-	0) bash /Projeto/menu2.sh;;
+	0) bash /Projeto/edir.sh;;
 	1) dialog --msgbox "Diretório não encontrado, tente novamente" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac

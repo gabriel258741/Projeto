@@ -21,8 +21,8 @@ case $arq2 in
 	5) p2=5; pero;;
 	6) p2=3; pero;;
 	7) p2=7; pero;;
-	8) menu;;
-	*) dialog --msgbox "Opção inválida" 0 0; bash /Projeto/edir.sh;;
+	8) bash /Projeto/garq.sh;;
+	*) bash /Projeto/menu.sh;;
 esac
 }
 function pero(){
@@ -47,14 +47,14 @@ case $arq2 in
 	5) p3=5;;
 	6) p3=3;;
 	7) p3=7;;
-	8) perg;;
-	*) dialog --msgbox "Opção invalida" 0 0; bash /Projeto/edir.sh;;
+	8) bash /Projeto/garq.sh;;
+	*) bash /Projeto/menu.sh;;
 esac
 chmod $p1$p2$p3 $arq
 case $? in
-	0) dialog --msgbox "Permissões alteradas com sucesso" 0 0; bash /Projeto/edir.sh;;
-	1) dialog --msgbox "Não foi possivel alterar permissões" 0 0; menu;;
-	*) dialog --msgbox "Erro $?" 0 0; menu;;
+	0) dialog --msgbox "Permissões alteradas com sucesso" 0 0; bash /Projeto/garq.sh;;
+	1) dialog --msgbox "Não foi possivel alterar permissões" 0 0; bash /Projeto/garq.sh;;
+	*) dialog --msgbox "Erro $?" 0 0;;
 esac
 }
 function menu(){
@@ -63,10 +63,6 @@ arq=$( dialog						\
 	--title "Alterar permissão"			\
 	--inputbox "Digite o nome do diretório/arquivo:"\
 	0 0 )
-case $? in
-	1) bash /Projeto/edir.sh;;
-	255) bash /Projeto/edir.sh;;
-esac
 arq2=$( dialog						\
 	--stdout					\
 	--title "Alterar permissão"			\
@@ -88,8 +84,8 @@ case $arq2 in
 	5) p1=5; perg;;
 	6) p1=3; perg;;
 	7) p1=7; perg;;
-	8) bash /Projeto/edir.sh;;
-	*) dialog --msgbox "Opção invalida" 0 0; bash /Projeto/edir.sh;;
+	8) bash /Projeto/garq.sh;;
+	*) bash /Projeto/menu.sh;;
 esac
 }
 menu

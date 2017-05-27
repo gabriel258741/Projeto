@@ -20,7 +20,7 @@ case $opcao in
 	4) atlAPK ;;
 	5) atlREP ;;
 	6) lista ;;
-	7) bash /Projeto/menu.sh ;;	
+	7) bash /Projeto/menu2.sh ;;	
 	*) exit 0 ;;
 esac
 }
@@ -30,6 +30,10 @@ APK=$( dialog						\
 	--title "Instalar aplicativo"			\
 	--inputbox "Nome do aplicativo"			\
 	0 0)
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 apt-get --force-yes install $APK -y
 case $? in
 	0) dialog --msgbox "Instalado com sucesso" 0 0; menu;;
@@ -44,6 +48,10 @@ APG=$( dialog						\
 	--title "Remover aplicativo"			\
 	--inputbox "Nome do aplicativo"			\
 	0 0)
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 apt-get remove -y $APG
 parg
 }

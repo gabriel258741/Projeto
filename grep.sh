@@ -44,6 +44,10 @@ APG=$( dialog						\
 	--title "Remover aplicativo"			\
 	--inputbox "Nome do aplicativo"			\
 	0 0)
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 apt-get remove -y $APG
 parg
 }

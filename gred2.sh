@@ -33,6 +33,10 @@ int=$( dialog					\
 		--title "Escolha a interface"	\
 		--inputbox "Interface número:"	\
 		0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 ifconfig eth$int up
 case $? in
 	0) dialog --msgbox "Sucess" 0 0; menu;;
@@ -50,6 +54,10 @@ int=$( dialog					\
 		--title "Escolha a interface"	\
 		--inputbox "Interface número:"	\
 		0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 ifconfig eth$int down
 case $? in
 	0) dialog --msgbox "Sucess" 0 0; menu;;
@@ -72,6 +80,10 @@ int=$( dialog					\
 		--title "Escolha a interface"	\
 		--inputbox "Interface número:"	\
 		0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 ip addr flush dev eth0
 menu=$( dialog					\
 		--stdout			\
@@ -90,6 +102,10 @@ function estatico(){
 ip=$( dialog 				\
 	--stdout			\
 	--inputbox "Address:" 0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 mask=$( dialog 				\
 	--stdout			\
 	--menu "Netmask:"		\

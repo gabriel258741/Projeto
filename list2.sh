@@ -15,7 +15,7 @@ case $opcao in
 	2) list2 ;;
 	3) list3 ;;
 	4) list4 ;;
-	5) bash /Projeto/garq.sh ;;
+	5) bash /Projeto/edir.sh ;;
 	*) exit 0 ;;
 esac
 }
@@ -25,6 +25,10 @@ arq=$( dialog						\
 	--title "Listar Diretório"			\
 	--inputbox "Digite o nome/local do diretório:"	\
 	0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 ls $arq > /tmp/listar.txt
 dialog 							\
 	--title "Listagem"				\
@@ -37,6 +41,10 @@ arq=$( dialog						\
 	--title "Listar Diretório"			\
 	--inputbox "Digite o nome/local do diretório:"	\
 	0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 ls -la $arq > /tmp/listar.txt
 dialog							\
 	--title "Listagem"				\
@@ -49,6 +57,10 @@ arq=$( dialog						\
 	--title "Listar Diretório"			\
 	--inputbox "Digite o nome/local do diretório:"	\
 	0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 ls -a $arq > /tmp/listar.txt
 dialog							\
 	--title "Listagem"				\
@@ -61,6 +73,10 @@ arq=$( dialog						\
 	--title "Listar Diretório"			\
 	--inputbox "Digite o nome/local do diretório:"	\
 	0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
 ls -lah $arq > /tmp/listar.txt
 dialog							\
 	--title "Listagem"				\
