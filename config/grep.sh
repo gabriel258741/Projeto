@@ -8,8 +8,8 @@ opcao=$( dialog						\
 	0 0 0						\
 	1 "Instalar Aplicativos"			\
 	2 "Apagar Aplicativos"				\
-	3 "Exporta GITHUB"				\
-	4 "Atualizar Aplicativo"			\
+	3 "Importar GITHUB"				\
+	4 "Atualizar Aplicativos"			\
 	5 "Atualizar Repositorios"			\
 	6 "Listar Pacotes"				\
 	7 "Voltar" )
@@ -56,6 +56,13 @@ apt-get remove -y $APG
 parg
 }
 function expGIT(){
+git
+case $? in
+	127) gityes;;
+	1) gitno;;
+esac
+}
+function gityes(){
 dialog					\
 	--title "Informação"			\
 	--yesno "È necessário fazer a instalação do git. Continuar?" 0 0
@@ -65,22 +72,53 @@ case $? in
 	*) dialog --msgbox "erro $?" 0 0; menu;;
 esac
 }
+function gitno(){
+gite=$ ( dialog					\
+		--stdout			\
+		--title "Importar GITHUB"	\
+		--inputbox "Nome do usuário:" 0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
+gite2=$( dialog					\
+		--stdout			\
+		--title "Importar GITHUB"	\
+		--stdout "Nome do repositório:" 0 0 )
+case $? in
+	1) menu;;
+	255) menu;;
+esac
+git clone http://github.com/$gite/$gite2
+case $? in
+	0) dialog --msgbox "Importado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Não foi possivel exportar" 0 0; menu;;
+	*) dialog --title "Impossivel importar" --msgbox "Erro $?" 0 0; menu;;
+esac
+}
 function atlAPK(){
-apt-get update 
-menu
+apt-get update
+case $? in
+	0) dialog --msgbox "Atualizado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Não foi possivela atualizar" 0 0; menu;; 
+	*) dialog --title "Impossivel atualizar" --msgbox "Erro $?" 0 0; menu;;
+esac
 }
 function atlAPK(){
 apt-get upgrade
-menu
+case $? in
+	0) dialog --msgbox "Atualizado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Não foi possivela atualizar" 0 0; menu;; 
+	*) dialog --title "Impossivel atualizar" --msgbox "Erro $?" 0 0; menu;;
+esac
 }
 function parg(){
 apt-get purge $APK -y
 case $? in
-	0) dialog --msgbox "Instalado com sucesso" 0 0; menu;;
-	1) dialog --msgbox "Impossivel instalar aplicativo" 0 0; menu;;
+	0) dialog --msgbox "Removido com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Impossivel remover aplicativo" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
-menu
 }
 function lista(){
 apt list --installed | nl > /tmp/listapacotes.txt
