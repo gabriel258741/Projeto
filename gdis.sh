@@ -12,7 +12,8 @@ OPCAO=$(dialog					\
 	6 "DHCP"				\
 	7 "Gateway"				\
 	8 "Testar conexão (ping)"		\
-	9 "Visualizar identificação(id) do arquivo" )
+	9 "Visualizar identificação(id) do arquivo" \
+	10 "Voltar" )
 case $OPCAO in
 	1) INFCP ;;
 	2) EXDP ;;
@@ -23,6 +24,7 @@ case $OPCAO in
 	7) GTWY ;;
 	8) PING	;;
 	9) VIDARQ ;;
+	10) bash /Projeto/menu.sh ;;
 esac
 }
 function INFCP(){

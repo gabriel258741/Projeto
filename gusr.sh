@@ -70,21 +70,15 @@ case $? in
 esac
 }
 APAS(){
-	NOME=$(	dialog --stdout --passwordbox "Usuário" 0 0)
+NOME=$( dialog --stdout --inputbox "Digite o nome do usuário" 0 0)
 passwd $NOME
-case $? in
-	0) dialog --
-	COCO=$(	dialog --stdout --passwordbox "Digite a senha novamente" 0 0)
-esac
-case $? in
-	0) dialog --msgbox "Senha do usuário atual modificada" 0 0; MENU;;
-	1) dialog --msgbox "Tente novamente!" 0 0; APAS;;
-	10) dialog --msgbox "Não foi possível atualizar a senha" 0 0;;
-	*) dialog --msgbox "$?" 0 0;;
 
+case $? in
+0) dialog --msgbox "Senha alterada com sucesso!" 0 0 ;;
+*) dialog --msgbox "Erro $?" 0 0 ;;
 esac
+MENU
 }
-
 AUGR(){
 	NOME=$(	dialog --stdout --inputbox "Digite o nome do usuario" 0 0)
 	GRUPO=$( dialog --stdout --inputbox "Digite o nome do grupo" 0 0)

@@ -11,7 +11,8 @@ OPCAO=$(dialog					\
 	5 "Alterar hostname"			\
 	6 "Gateway"				\
 	7 "Testar conexão (ping)"		\
-	8 "Visualizar identificação(id) do arquivo" )
+	8 "Visualizar identificação(id) do arquivo"\
+ 	9 "Voltar" )
 case $OPCAO in
 	1) SRED ;;
 	2) DRED ;;
@@ -21,6 +22,7 @@ case $OPCAO in
 	6) GTWY ;;
 	7) PING	;;
 	8) VIDARQ;;
+	9) bash /Projeto/menu.sh;; 
 esac
 }
 function SRED(){
