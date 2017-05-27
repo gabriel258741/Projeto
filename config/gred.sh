@@ -10,9 +10,11 @@ OPCAO=$(dialog					\
 	4 "Alterar endereço IP/Máscara" 	\
 	5 "Alterar hostname"			\
 	6 "Gateway"				\
-	7 "Testar conexão (ping)"		\
-	8 "Visualizar identificação(id) do arquivo"\
- 	9 "Voltar" )
+	7 "Remover Gateway"			\
+	8 "Adicionar Gateway"			\
+	9 "Testar conexão (ping)"		\
+	10 "Visualizar identificação(id) do arquivo"\
+ 	11 "Voltar" )
 case $OPCAO in
 	1) SRED ;;
 	2) DRED ;;
@@ -20,9 +22,11 @@ case $OPCAO in
 	4) ATIP ;;
 	5) ATHS ;;
 	6) GTWY ;;
-	7) PING	;;
-	8) VIDARQ;;
-	9) bash /Projeto/config/menu.sh;; 
+	7) RTWY ;;
+	8) DTWY ;; 
+	9) PING	;;
+	10) VIDARQ;;
+	11) bash /Projeto/config/menu.sh;; 
 esac
 }
 function SRED(){
@@ -62,8 +66,8 @@ case $? in
 esac
 ifconfig eth$int down
 case $? in
-	0) dialog --msgbox "Sucess" 0 0; menu;;
-	1) dialog --msgbox "Erou" 0 0; menu;;
+	0) dialog --msgbox "Sucesso" 0 0; menu;;
+	1) dialog --msgbox "Errou" 0 0; menu;;
 	*) dialog --msgbox "Error $?" 0 0; menu;;
 esac
 }
@@ -168,7 +172,7 @@ ip addr add $ip/$mask dev eth$int
 case $? in
 	0) dialog --msgbox "Alterado com sucesso" 0 0; menu;;
 	1) dialog --msgbox "Impossivel alterar. Tente novamente" 0 0; menu;;
-	*) dialog --msgbox "erro $?" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function padrao(){
@@ -197,6 +201,48 @@ case $volta in
 	0) dialog --infobox "Host alterado com sucesso" 0 0; menu;;
 	1) dialog --infobox "Não foi possivel alterar" 0 0; menu;;
 	*) dialog --infobox "Erro $?" 0 0; menu;;
+esac
+}
+function GTWY(){
+	route > /tmp/route.txt
+	dialog --textbox /tmp/route.txt 0 0
+	su service netwoking restart
+case $? in
+	0) dialog --msgbox "Sucesso" 0 0; menu;;
+	1) dialog --msgbox "Error" 0 0; menu;;
+	*) dialog --msgbox "Error $?" 0 0; menu;;
+esac
+}
+function RTWY(){
+	GW=$(dialog --stdout --inputbox "Digite o gateway que deseja apagar :" 0 0)
+	route del $GW > /tmp/routedel.txt
+	su service netwoking restart
+case $? in
+	0) dialog --msgbox "Sucesso" 0 0; menu;;
+	1) dialog --msgbox "Error" 0 0; menu;;
+	*) dialog --msgbox "Error $?" 0 0; menu;;
+esac
+}
+function DTWY(){
+	Gd=$(dialog --stdout --inputbox "Digite o gateway que deseja adicionar :" 0 0)
+	int=$(dialog --stdout --inputbox "Digite a interface à ser modificada :" 0 0)
+	route add $Gd $int > /tmp/routeadd.txt
+	su /etc/init.d/networking restart
+case $? in
+	0) dialog --msgbox "Sucesso" 0 0; menu;;
+	1) dialog --msgbox "Sucesso" 0 0; menu;;
+	*) dialog --msgbox "Error $?" 0 0; menu;;
+esac
+}
+function PING(){
+	PN=$(dialog --stdout --inputbox "Digite o IP à ser testado: " 0 0)
+	dialog --infobox "Para cancelar o processo CTRL+C" 0 0
+	sleep 2
+	ping $PN
+case $? in
+	0) dialog --msgbox "Sucesso" 0 0; menu;;
+	1) dialog --msgbox "Error" 0 0; menu;;
+	*) dialog --msgbox "Error $?" 0 0; menu;;
 esac
 }
 menu
