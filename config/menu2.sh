@@ -8,7 +8,7 @@ opcao=$( dialog						\
 	2 "Gerenciador de Usuários"			\
 	3 "Gerenciados de Redes"			\
 	4 "Gerenciador de Dispositivos"			\
-	5 "Gerenciador de repositórios"	)
+	5 "Gerenciador de Pacotes"	)
 case $opcao in
 	1) bash /Projeto/config/edir.sh;;
 	2) bash /Projeto/config/gusr2.sh;;

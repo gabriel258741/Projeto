@@ -94,7 +94,7 @@ case $opcao in
 	16) edit ;;
 	17) cd /; bash /Projeto/config/edir.sh;;
 	18) bash /Projeto/config/menu.sh ;;
-	*) dialog --msgbox "Opção inválida" 0 0 ; menu;;
+	*) bash /Projeto/config/menu.sh;;
 esac
 }
 function carq(){
