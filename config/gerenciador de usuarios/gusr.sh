@@ -23,7 +23,7 @@ case $OPCAO in
 	7) MUSR ;;
 	8) MGRP ;;
 	9) bash /Projeto/config/menu.sh ;;
-	*) dialog --msgbox "Opção Invalida. Digite novamente" 0 0 ; MENU;;
+	*) bash /Projeto/config/menu.sh	;;
 esac
 }
 CUSR(){
@@ -38,7 +38,6 @@ case $? in
 	9) dialog --msgbox "Usuário já existe" 0 0; MENU;;
 	*) dialog --msgbox "erro: $?" 0 0; MENU;;
 esac
-MENU
 }
 AUSR(){
 	NOME=$(	dialog --stdout --inputbox "Digite o nome do usuário" 0 0)
@@ -52,7 +51,6 @@ case $? in
 	6) dialog --msgbox "Usuário não existe" 0 0; MENU;;
 	*) dialog --msgbox "erro: $?" 0 0; MENU;;
 esac
-MENU
 }
 CGRP(){
 	NOME=$(	dialog --stdout --inputbox "Digite o nome do grupo" 0 0)
@@ -66,7 +64,6 @@ CGRP(){
 	9) dialog --msgbox "Esse grupo já existe" 0 0; MENU;;
 	*) dialog --msgbox "erro: $?" 0 0; MENU;;
 esac
-MENU
 }
 AGRP(){
 	NOME=$(	dialog --stdout --inputbox "Digite o nome do grupo" 0 0)
@@ -111,7 +108,10 @@ esac
 }
 MUSR(){
 	dialog --textbox /etc/passwd 0 0
-	MENU
+case $? in
+	0) MENU;;
+	*) dialog --msgbox "Erro: $?" 0 0; MENU;;
+esac
 }
 MGRP(){
 	dialog --textbox /etc/group 0 0

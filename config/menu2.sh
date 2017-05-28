@@ -10,10 +10,10 @@ opcao=$( dialog						\
 	4 "Gerenciador de Dispositivos"			\
 	5 "Gerenciador de Pacotes"	)
 case $opcao in
-	1) bash /Projeto/config/edir.sh;;
-	2) bash /Projeto/config/gusr2.sh;;
-	3) bash /Projeto/config/gred2.sh;;
-	4) bash /Projeto/config/gdis2.sh;;
-	5) bash /Projeto/config/grep2.sh;;
+	1) bash /Projeto/config/gerenciador\ de\ arquivos/edir.sh;;
+	2) bash /Projeto/config/gerenciador\ de\ usuarios/gusr2.sh;;
+	3) bash /Projeto/config/gerenciador\ de\ redes/gred2.sh;;
+	4) bash /Projeto/config/gerenciador\ de\ dispositivos/gdis2.sh;;
+	5) bash /Projeto/config/gerenciador\ de\ pacotes/grep2.sh;;
 	*) exit 0
 esac

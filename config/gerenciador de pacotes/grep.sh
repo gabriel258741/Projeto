@@ -21,7 +21,7 @@ case $opcao in
 	5) atlREP ;;
 	6) lista ;;
 	7) bash /Projeto/config/menu.sh ;;	
-	*) exit 0 ;;
+	*) bash /Projeto/config/menu.sh ;;
 esac
 }
 function instapk(){
@@ -73,7 +73,7 @@ case $? in
 esac
 }
 function gitno(){
-gite=$ ( dialog					\
+gite=$( dialog					\
 		--stdout			\
 		--title "Importar GITHUB"	\
 		--inputbox "Nome do usuário:" 0 0 )

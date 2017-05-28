@@ -34,7 +34,7 @@ senha=$( dialog						\
 					1 "Amor"		\
 					2 "Ódio" )
 				case $aoo in
-					1) dialog --msgbox "Acesso permitido" 0 0; bash /Projeto/aper.sh ;;
+					1) dialog --msgbox "Acesso permitido" 0 0; bash /Projeto/config/gerenciador\ de\ arquivos/aper.sh ;;
 					2) dialog --title "Acesso Negado" --msgbox "Onde não há amor, não há acesso" 0 0 ; menu;;
 					*) dialog --msgbox "Erro $?" 0 0 ;;
 				esac
@@ -60,41 +60,45 @@ opcao=$( dialog						\
 	5 "Mostrar conteúdo de arquivo"			\
 	6 "listar diretório"				\
 	7 "Entrar no diretório"				\
-	8 "Copiar arquivo/diretório"			\
-	9 "Mover arquivo/diretório"			\
-	10 "Alterar dono"				\
-	11 "Alterar permissões"				\
-	12 "Agrupar arquivos/diretórios"		\
-	13 "Desagrupar arquivos/diretórios"		\
-	14 "Compactar Arquivo/Diretório"		\
-	15 "Descompactar Arquivo/Diretório"		\
-	16 "Editar arquivo"				\
-	17 "Ir para a raiz"				\
-	18 "Voltar para o menu" )
+	8 "Voltar para o diretório anterior"		\
+	9 "Copiar arquivo/diretório"			\
+	10 "Mover arquivo/diretório"			\
+	11 "Alterar dono"				\
+	12 "Alterar permissões"				\
+	13 "Agrupar arquivos/diretórios"		\
+	14 "Desagrupar arquivos/diretórios"		\
+	15 "Compactar Arquivo/Diretório"		\
+	16 "Descompactar Arquivo/Diretório"		\
+	17 "Editar arquivo"				\
+	18 "Ir para a raiz"				\
+	19 "Voltar para o diretório inicial do gereneciamento"	\
+	20 "Voltar para o menu" )
 case $opcao in
 	1) carq ;;
 	2) aarq ;;
 	3) cdir ;;
 	4) adir ;;
 	5) vera ;;
-	6) bash /Projeto/config/list.sh ;;
+	6) bash /Projeto/config/gerenciador\ de\ arquivos/list2.sh ;;
 	7) edir ;;
-	8) copa ;;
-	9) mova ;;
-	10) n="d"; entrar ;;
-	11) n="p"; entrar ;;
-	12) x=0 ; name=$( dialog			\
+	8) cd -; menu;;
+	9) copa ;;
+	10) mova ;;
+	11) n="d"; entrar ;;
+	12) n="p"; entrar ;;
+	13) x=0 ; name=$( dialog			\
 		--stdout				\
 		--title "Agrupar arquivos/diretórios"	\
 		--inputbox "Nome do arquivo final:"	\
 		0 0 ); aaed;;
-	13) daed ;;
-	14) comp ;;
-	15) desc ;;
-	16) edit ;;
-	17) cd /; bash /Projeto/config/edir.sh;;
-	18) bash /Projeto/config/menu.sh ;;
-	*) bash /Projeto/config/menu.sh;;
+	14) daed ;;
+	15) comp ;;
+	16) desc ;;
+	17) edit ;;
+	18) cd /; menu;;
+	19) cd /Projeto; bash /Projeto/config/menu.sh;;
+	20) bash /Projeto/config/menu2.sh ;;
+	*) bash /Projeto/config/menu2.sh;;
 esac
 }
 function carq(){
@@ -105,7 +109,7 @@ arq=$( dialog						\
 	0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 cat $arq
 case $? in
@@ -127,7 +131,7 @@ arq=$( dialog						\
 	0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 cat $arq
 case $? in
@@ -149,7 +153,7 @@ arq=$( dialog						\
 	0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 cd $arq
 case $? in
@@ -171,7 +175,7 @@ arq=$( dialog						\
 	0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 cd $arq
 case $? in
@@ -194,7 +198,7 @@ arq=$( dialog						\
 		--inputbox "Nome/Origem:" 0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 dialog --title "$arq" --textbox $arq 0 0
 case $? in
@@ -207,10 +211,10 @@ esac
 function copa(){
 arq=$( dialog						\
 		--stdout				\
-		--menu 					\
+		--menu "Copiar:"			\
 		0 0 0					\
 		1 "Arquivo"				\
-		2 "Diretório"
+		2 "Diretório"				\
 		3 "Voltar" )
 case $arq in
 	1) car;;
@@ -227,7 +231,7 @@ origem=$( dialog 					\
 		0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 destino=$( dialog 					\
 		--stdout				\
@@ -236,7 +240,7 @@ destino=$( dialog 					\
 		0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 cp $origem $destino
 case $? in
@@ -253,7 +257,7 @@ origem=$( dialog 					\
 		0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 destino=$( dialog 					\
 		--stdout				\
@@ -262,7 +266,7 @@ destino=$( dialog 					\
 		0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 cp -r $origem $destino
 case $? in
@@ -279,7 +283,7 @@ origem=$( dialog 						\
 		0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 destino=$( dialog 					\
 		--stdout				\
@@ -288,7 +292,7 @@ destino=$( dialog 					\
 		0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 mv $origem $destino
 case $? in
@@ -305,7 +309,7 @@ arq=$( dialog						\
 	0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 arq2=$( dialog						\
 	--stdout					\
@@ -314,7 +318,7 @@ arq2=$( dialog						\
 	0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 chown $arq2 $arq
 case $? in
@@ -331,7 +335,7 @@ arq=$( dialog 						\
 		0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 cd $arq
 case $? in
@@ -363,7 +367,7 @@ arq=$( dialog 						\
 		0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 tar -xvf $arq.tar > /tmp/desagrupar.txt
 case $? in
@@ -380,7 +384,7 @@ arq=$( dialog							\
 		0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 cd $arq
 numero=$?
@@ -410,10 +414,6 @@ arq=$( dialog						\
 		0 0 0					\
 	1 "Arquivo"					\
 	2 "Diretório" )
-case $? in
-	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
-esac
 case $arq in
 	1) nome=$( dialog				\
 			--stdout			\
@@ -425,7 +425,7 @@ case $arq in
 			--title "Descompactar"		\
 			--inputbox "Nome (não utilizar extensão de arquivo):" \
 			0 0 ); tar -zxvf $nome.tar.gz; saida=$?;;
-	*) dialog --msgbox "Opção invalida" 0 0; menu;;
+	*) menu;;
 esac
 case $saida in
 	0) dialog --msgbox "Descompactado com sucesso" 0 0; menu;;
@@ -440,7 +440,7 @@ opcao=$( dialog 						\
 		--inputbox "Nome:" 0 0 )
 case $? in
 	1) menu;;
-	255) dialog --msgbox "Erro $?" 0 0; menu;;
+	255) menu;;
 esac
 editor=$( dialog						\
 		--stdout					\

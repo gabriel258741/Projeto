@@ -2,14 +2,13 @@
 clear
 function password(){
 if [ $pass == $senha ]; then
-	bash /Projeto/config/menu.sh
+	bash /Projeto/config/bemvindo.sh
 else
 	dialog --msgbox "Acesso Negado" 0 0
 	login
 fi
 
 }
-
 function login(){
 user=$( dialog						\
  	--stdout					\

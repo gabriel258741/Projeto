@@ -26,7 +26,7 @@ case $OPCAO in
 	8) DTWY ;; 
 	9) PING	;;
 	10) VIDARQ;;
-	11) bash /Projeto/config/menu.sh;; 
+	11) bash /Projeto/config/menu2.sh;; 
 esac
 }
 function SRED(){

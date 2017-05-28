@@ -9,13 +9,15 @@ opcao=$( dialog						\
 	2 "Mostrar tamanho em KBytes"			\
 	3 "Mostrar arquivos ocultos"			\
 	4 "Mostrar permissões/grupos/donos/modificações"\
-	5 "Voltar" )
+	5 "Manual linux"				\
+	6 "Voltar" )
 case $opcao in
 	1) list1 ;;
 	2) list2 ;;
 	3) list3 ;;
 	4) list4 ;;
-	5) bash /Projeto/config/edir.sh ;;
+	5) manual ;;
+	6) bash /Projeto/config/gerenciador\ de\ arquivos/edir.sh ;;
 	*) exit 0 ;;
 esac
 }
@@ -81,6 +83,18 @@ ls -lah $arq > /tmp/listar.txt
 dialog							\
 	--title "Listagem"				\
 	--textbox /tmp/listar.txt 0 0
+menu
+}
+function manual(){
+manual=$( dialog				\
+		--stdout			\
+		--title "Manual Linux"		\
+		--inputbox "Nome do comando:" 0 0 )
+case $? in
+	1|255) menu ;;
+esac
+man $manual > /tmp/manualinux.txt
+dialog --title "$manual" --textbox /tmp/manualinux.txt 0 0 0
 menu
 }
 menu
