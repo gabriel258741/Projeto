@@ -37,36 +37,28 @@ esac
 function INFCP(){
 	lscpu > /tmp/cpuinf.txt
 	dialog --textbox /tmp/cpuinf.txt 0 0
-
 case $? in
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
-
 esac
 }
 function EXDP(){
 	fdisk -l > /tmp/cpuinf.txt
 	dialog --textbox /tmp/cpuinf.txt 0 0
-
 case $? in
-
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
-
 esac
 }
 function MODC(){
 	lsmod > /tmp/cpuinf.txt
 	dialog --textbox /tmp/cpuinf.txt 0 0
-
 case $? in
-
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
-
 esac
 }
 function PCI2(){
@@ -75,76 +67,73 @@ function PCI2(){
 
 case $? in
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }
 function UTM(){
 	free -h > /tmp/infmem.txt
 	dialog --textbox /tmp/infmem.txt 0 0
-
 case $? in
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }
 function IND(){
 	df -ih > /tmp/ino.txt
 	dialog --textbox /tmp/ino.txt 0 0
-
 case $? in
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }
 function KERNEL(){
 	uname -v > /tmp/ino.txt
 	dialog --textbox /tmp/ino.txt 0 0
-
 case $? in
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }
 function ALLINF(){
 	uname -a > /tmp/ino.txt
 	dialog --textbox /tmp/ino.txt 0 0
-
 case $? in
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }
 function PROCSIS(){
 	ps aux > /tmp/ino.txt
 	dialog --textbox /tmp/ino.txt 0 0
-
 case $? in
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }
 function PROCSISH(){
 	pstree > /tmp/ino.txt
 	dialog --textbox /tmp/ino.txt 0 0
-
 case $? in
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }
 function KILLPROC(){
 	kill=$(dialog --stdout --inputbox "Digite o PID do processo que deseja fechar: " 0 0)
+case $? in
+	1|255) menu;;
+esac
 	kill -9 $kill
 case $? in
-	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	0) dialog --msgbox "Encerrado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Não foi possivel encerrar processo" 0 0; menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }
@@ -153,7 +142,7 @@ function ARQPROC(){
 	dialog --textbox /tmp/ino.txt 0 0
 case $? in
 	0) menu;;
-	1) dialog --infobox "Tente novamente" 0 0; menu;;
+	1|255) menu;;
 	*) dialog --infobox "erro: $?" 0 0; menu;;
 esac
 }

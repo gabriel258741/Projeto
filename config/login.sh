@@ -1,5 +1,6 @@
 #!/bin/bash
 clear
+cd /Projeto
 function password(){
 if [ $pass == $senha ]; then
 	bash /Projeto/config/bemvindo.sh

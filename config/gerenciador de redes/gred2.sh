@@ -23,7 +23,7 @@ case $OPCAO in
 	5) ATHS ;;
 	6) GTWY ;;
 	7) RTWY ;;
-	8) DTWY ;; 
+	8) DTWY ;;
 	9) PING	;;
 	10) VIDARQ;;
 	11) bash /Projeto/config/menu2.sh;; 
@@ -40,14 +40,13 @@ int=$( dialog					\
 		--inputbox "Interface número:"	\
 		0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 ifconfig eth$int up
 case $? in
-	0) dialog --msgbox "Sucess" 0 0; menu;;
-	1) dialog --msgbox "Erou" 0 0; menu;;
-	*) dialog --msgbox "Error $?" 0 0; menu;;
+	0) dialog --msgbox "Subiu" 0 0; menu;;
+	1) dialog --msgbox "Não foi possivel subir" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function DRED(){
@@ -61,14 +60,13 @@ int=$( dialog					\
 		--inputbox "Interface número:"	\
 		0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 ifconfig eth$int down
 case $? in
-	0) dialog --msgbox "Sucesso" 0 0; menu;;
-	1) dialog --msgbox "Errou" 0 0; menu;;
-	*) dialog --msgbox "Error $?" 0 0; menu;;
+	0) dialog --msgbox "Desceu" 0 0; menu;;
+	1) dialog --msgbox "Não foi possivel descer" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function VIP(){
@@ -87,8 +85,7 @@ int=$( dialog					\
 		--inputbox "Interface número:"	\
 		0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 ip addr flush dev eth0
 menu=$( dialog					\
@@ -109,8 +106,7 @@ ip=$( dialog 				\
 	--stdout			\
 	--inputbox "Address:" 0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 mask=$( dialog 				\
 	--stdout			\
@@ -167,6 +163,7 @@ case $mask in
 	23) mask=9;;
 	24) mask=8;;
 	25) menu;;
+	*) menu;;
 esac
 ip addr add $ip/$mask dev eth$int
 case $? in
@@ -193,56 +190,68 @@ int=$( dialog					\
 		--inputbox "Digite o novo nome:"	\
 		0 0 )
 case $? in
-	0) echo "$int" > /etc/hostname; volta=$?;;
-	1) dialog --msgbox "Opção inválida" 0 0;;
- 	*) dialog --msgbox "Erro $?" 0 0;;
+	1|255) menu;;
 esac
-case $volta in
-	0) dialog --infobox "Host alterado com sucesso" 0 0; menu;;
-	1) dialog --infobox "Não foi possivel alterar" 0 0; menu;;
-	*) dialog --infobox "Erro $?" 0 0; menu;;
+echo "$int" > /etc/hostname
+case $? in
+	0) dialog --msgbox "Host alterado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Não foi possivel alterar o host" 0 0; menu;;
+ 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function GTWY(){
-	route > /tmp/route.txt
+	route -n > /tmp/route.txt
 	dialog --textbox /tmp/route.txt 0 0
-	su service netwoking restart
-case $? in
-	0) dialog --msgbox "Sucesso" 0 0; menu;;
-	1) dialog --msgbox "Error" 0 0; menu;;
-	*) dialog --msgbox "Error $?" 0 0; menu;;
-esac
+	menu
 }
 function RTWY(){
-	GW=$(dialog --stdout --inputbox "Digite o gateway que deseja apagar :" 0 0)
-	route del $GW > /tmp/routedel.txt
-	su service netwoking restart
+ip addr > /tmp/inter.txt
+dialog --title "Interfaces" --textbox /tmp/inter.txt 0 0
+int=$(dialog --stdout --title "Remover Gateway" --inputbox "Interface:" 0 0)
 case $? in
-	0) dialog --msgbox "Sucesso" 0 0; menu;;
-	1) dialog --msgbox "Error" 0 0; menu;;
-	*) dialog --msgbox "Error $?" 0 0; menu;;
+	1|255) menu;;
+esac
+GW=$(dialog --stdout --title -"Remover Gateway" --inputbox "Gateway:" 0 0)
+case $? in
+	1|255) menu;;
+esac
+	route del $GW $int
+case $? in
+	0) dialog --msgbox "Removido com sucesso" 0 0; menu;;
+	1|7) dialog --msgbox "Não foi possivel remover o gateway" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function DTWY(){
-	Gd=$(dialog --stdout --inputbox "Digite o gateway que deseja adicionar :" 0 0)
-	int=$(dialog --stdout --inputbox "Digite a interface à ser modificada :" 0 0)
-	route add $Gd $int > /tmp/routeadd.txt
-	su /etc/init.d/networking restart
+ip addr > /tmp/gat.txt
+dialog --textbox /tmp/gat.txt 0 0
+int=$(dialog --stdout --title "Adicionar gateway" --inputbox "Interface:" 0 0)
 case $? in
-	0) dialog --msgbox "Sucesso" 0 0; menu;;
-	1) dialog --msgbox "Sucesso" 0 0; menu;;
-	*) dialog --msgbox "Error $?" 0 0; menu;;
+	1|255) menu ;;
+esac
+Gd=$(dialog --stdout --title "Adicionar gateway" --inputbox "Gateway:" 0 0)
+case $? in
+	1|255) menu ;;
+esac
+	route add $Gd $int
+case $? in
+	0) dialog --msgbox "Adicionado com sucesso" 0 0; su /etc/init.d/networking restart; menu;;
+	1|7) dialog --msgbox "Não foi possivel adicionar o gateway" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function PING(){
-	PN=$(dialog --stdout --inputbox "Digite o IP à ser testado: " 0 0)
-	dialog --infobox "Para cancelar o processo CTRL+C" 0 0
+	PN=$(dialog --stdout --inputbox "IP:" 0 0)
+case $? in
+	1|255) menu;;
+esac
+	dialog --title "Para parar pressione CTRL+C" --msgbox "Pressione [enter] para pingar" 0 0
 	sleep 2
 	ping $PN
 case $? in
-	0) dialog --msgbox "Sucesso" 0 0; menu;;
-	1) dialog --msgbox "Error" 0 0; menu;;
-	*) dialog --msgbox "Error $?" 0 0; menu;;
+	0) menu;;
+	1) dialog --msgbox "Endereço IP não encontrado" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 menu

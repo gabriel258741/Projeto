@@ -13,14 +13,14 @@ opcao=$( dialog						\
 	5 "Atualizar Repositorios"			\
 	6 "Listar Pacotes"				\
 	7 "Voltar" )
-case $opcao in 
+case $opcao in
 	1) instapk ;;
 	2) apgAPK ;;
 	3) expGIT ;;
 	4) atlAPK ;;
 	5) atlREP ;;
 	6) lista ;;
-	7) bash /Projeto/config/menu2.sh ;;	
+	7) bash /Projeto/config/menu2.sh ;;
 	*) bash /Projeto/config/menu2.sh ;;
 esac
 }
@@ -31,8 +31,7 @@ APK=$( dialog						\
 	--inputbox "Nome do aplicativo"			\
 	0 0)
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 apt-get --force-yes install $APK -y
 case $? in
@@ -40,7 +39,6 @@ case $? in
 	1) dialog --msgbox "Impossivel instalar aplicativo" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
-menu
 }
 function apgAPK(){
 APG=$( dialog						\
@@ -49,10 +47,13 @@ APG=$( dialog						\
 	--inputbox "Nome do aplicativo"			\
 	0 0)
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 apt-get remove -y $APG
+case $? in
+	1) dialog --msgbox "Impossivel remover aplicativo" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
+esac
 parg
 }
 function expGIT(){
@@ -67,9 +68,9 @@ dialog					\
 	--title "Informação"			\
 	--yesno "È necessário fazer a instalação do git. Continuar?" 0 0
 case $? in
-	0) apt-get --force-yes install git -y; menu;;
-	1) bash /Projeto/grep.sh; menu;;
-	*) dialog --msgbox "erro $?" 0 0; menu;;
+	0) apt-get --force-yes install git -y; gitno;;
+	1) menu;;
+	*) menu;;
 esac
 }
 function gitno(){
@@ -78,35 +79,36 @@ gite=$( dialog					\
 		--title "Importar GITHUB"	\
 		--inputbox "Nome do usuário:" 0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 gite2=$( dialog					\
 		--stdout			\
 		--title "Importar GITHUB"	\
 		--stdout "Nome do repositório:" 0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 git clone http://github.com/$gite/$gite2
 case $? in
 	0) dialog --msgbox "Importado com sucesso" 0 0; menu;;
-	1) dialog --msgbox "Não foi possivel exportar" 0 0; menu;;
+	1) dialog --msgbox "Não foi possivel importar" 0 0; menu;;
 	*) dialog --title "Impossivel importar" --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function atlAPK(){
-apt-get update
-case $? in
+case $volta in
 	0) dialog --msgbox "Atualizado com sucesso" 0 0; menu;;
 	1) dialog --msgbox "Não foi possivela atualizar" 0 0; menu;; 
 	*) dialog --title "Impossivel atualizar" --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function atlAPK(){
-apt-get upgrade
+dialog --title "Isso pode demorar alguns minutos" --yesno "Deseja continuar?" 0 0
 case $? in
+	0) apt-get upgrade; volta=$?;;
+	1) menu;;
+esac
+case $volta in
 	0) dialog --msgbox "Atualizado com sucesso" 0 0; menu;;
 	1) dialog --msgbox "Não foi possivela atualizar" 0 0; menu;; 
 	*) dialog --title "Impossivel atualizar" --msgbox "Erro $?" 0 0; menu;;

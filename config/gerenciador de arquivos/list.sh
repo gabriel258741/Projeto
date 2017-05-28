@@ -9,16 +9,14 @@ opcao=$( dialog						\
 	2 "Mostrar tamanho em KBytes"			\
 	3 "Mostrar arquivos ocultos"			\
 	4 "Mostrar permissões/grupos/donos/modificações"\
-	5 "Manual linux"				\
-	6 "Voltar" )
+	5 "Voltar" )
 case $opcao in
 	1) list1 ;;
 	2) list2 ;;
 	3) list3 ;;
 	4) list4 ;;
-	5) manual ;;
-	6) bash /Projeto/config/gerenciador\ de\ arquivos/garq.sh ;;
-	*) exit 0 ;;
+	5) bash /Projeto/config/gerenciador\ de\ arquivos/garq.sh ;;
+	*) bash /Projeto/config/gerenciador\ de\ arquivos/garq.sh ;;
 esac
 }
 function list1(){
@@ -28,14 +26,17 @@ arq=$( dialog						\
 	--inputbox "Digite o nome/local do diretório:"	\
 	0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 ls $arq > /tmp/listar.txt
-dialog 							\
-	--title "Listagem"				\
-	--textbox /tmp/listar.txt 0 0
-menu
+case $? in
+	0) dialog	 					\
+		--title "Listagem"				\
+		--textbox /tmp/listar.txt 0 0; menu;;
+	2) dialog						\
+		--msgbox "Diretório não existe" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
+esac
 }
 function list2(){
 arq=$( dialog						\
@@ -44,14 +45,17 @@ arq=$( dialog						\
 	--inputbox "Digite o nome/local do diretório:"	\
 	0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 ls -la $arq > /tmp/listar.txt
-dialog							\
-	--title "Listagem"				\
-	--textbox /tmp/listar.txt 0 0
-menu
+case $? in
+	0) dialog	 					\
+		--title "Listagem"				\
+		--textbox /tmp/listar.txt 0 0; menu;;
+	2) dialog						\
+		--msgbox "Diretório não existe" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
+esac
 }
 function list3(){
 arq=$( dialog						\
@@ -60,14 +64,17 @@ arq=$( dialog						\
 	--inputbox "Digite o nome/local do diretório:"	\
 	0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 ls -a $arq > /tmp/listar.txt
-dialog							\
-	--title "Listagem"				\
-	--textbox /tmp/listar.txt 0 0
-menu
+case $? in
+	0) dialog	 					\
+		--title "Listagem"				\
+		--textbox /tmp/listar.txt 0 0; menu;;
+	2) dialog						\
+		--msgbox "Diretório não existe" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
+esac
 }
 function list4(){
 arq=$( dialog						\
@@ -76,25 +83,16 @@ arq=$( dialog						\
 	--inputbox "Digite o nome/local do diretório:"	\
 	0 0 )
 case $? in
-	1) menu;;
-	255) menu;;
+	1|255) menu;;
 esac
 ls -lah $arq > /tmp/listar.txt
-dialog							\
-	--title "Listagem"				\
-	--textbox /tmp/listar.txt 0 0
-menu
-}
-function manual(){
-manual=$( dialog				\
-		--stdout			\
-		--title "Manual Linux"		\
-		--inputbox "Nome do comando:" 0 0 )
 case $? in
-	1|255) menu ;;
+	0) dialog	 					\
+		--title "Listagem"				\
+		--textbox /tmp/listar.txt 0 0; menu;;
+	2) dialog						\
+		--msgbox "Diretório não existe" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
-man $manual > /tmp/manualinux.txt
-dialog --title "$manual" --textbox /tmp/manualinux.txt 0 0 0
-menu
 }
 menu

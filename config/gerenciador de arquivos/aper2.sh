@@ -6,8 +6,7 @@ arq=$( dialog						\
 	--inputbox "Digite o nome do diretório/arquivo:"\
 	0 0 )
 case $? in
-	1) bash /Projeto/config/gerenciador\ de\ arquivos/edir.sh;;
-	255) bash /Projeto/config/gerenciador\ de\ arquivos/edir.sh;;
+	1|255) bash /Projeto/config/gerenciador\ de\ arquivos/edir.sh;;
 esac
 arq2=$( dialog						\
 	--stdout					\
