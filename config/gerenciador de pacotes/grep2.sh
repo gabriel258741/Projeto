@@ -51,13 +51,13 @@ case $? in
 esac
 apt-get remove -y $APG
 case $? in
+	0) parg;;
 	1) dialog --msgbox "Impossivel remover aplicativo" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
-parg
 }
 function expGIT(){
-git
+git > /tmp/gittest.txt
 case $? in
 	127) gityes;;
 	1) gitno;;
@@ -84,7 +84,7 @@ esac
 gite2=$( dialog					\
 		--stdout			\
 		--title "Importar GITHUB"	\
-		--stdout "Nome do repositório:" 0 0 )
+		--inputbox "Nome do repositório:" 0 0 )
 case $? in
 	1|255) menu;;
 esac
