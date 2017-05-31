@@ -15,8 +15,8 @@ case $opcao in
 	2) list2 ;;
 	3) list3 ;;
 	4) list4 ;;
-	5) bash /Projeto/config/gerenciador\ de\ arquivos/edir.sh ;;
-	*) bash /Projeto/config/gerenciador\ de\ arquivos/edir.sh ;;
+	5) bash /Projeto/.config/gerenciador\ de\ arquivos/edir.sh ;;
+	*) bash /Projeto/.config/gerenciador\ de\ arquivos/edir.sh ;;
 esac
 }
 function list1(){

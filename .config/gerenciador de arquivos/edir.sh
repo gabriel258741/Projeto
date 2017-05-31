@@ -40,7 +40,7 @@ esac
 					1 "Amor"		\
 					2 "Ódio" )
 				case $aoo in
-					1) dialog --msgbox "Acesso permitido" 0 0; bash /Projeto/config/gerenciador\ de\ arquivos/aper.sh ;;
+					1) dialog --msgbox "Acesso permitido" 0 0; bash /Projeto/.config/gerenciador\ de\ arquivos/aper.sh ;;
 					2) dialog --title "Acesso Negado" --msgbox "Onde não há amor, não há acesso" 0 0 ; menu;;
 					*) dialog --msgbox "Erro $?" 0 0 ; menu;;
 				esac
@@ -67,46 +67,48 @@ opcao=$( dialog						\
 	6 "listar diretório"				\
 	7 "Manual Linux"				\
 	8 "Entrar no diretório"				\
-	9 "Voltar para o diretório anterior"		\
+	9 "Voltar um diretório"				\
 	10 "Copiar arquivo/diretório"			\
 	11 "Mover arquivo/diretório"			\
-	12 "Alterar dono"				\
-	13 "Alterar permissões"				\
-	14 "Agrupar arquivos/diretórios"		\
-	15 "Desagrupar arquivos/diretórios"		\
-	16 "Compactar Arquivo/Diretório"		\
-	17 "Descompactar Arquivo/Diretório"		\
-	18 "Editar arquivo"				\
-	19 "Ir para a raiz"				\
-	20 "Voltar para o diretório inicial do gereneciamento"	\
-	21 "Voltar para o menu" )
+	12 "Renomear arquivo/diretório"			\
+	13 "Alterar dono"				\
+	14 "Alterar permissões"				\
+	15 "Agrupar arquivos/diretórios"		\
+	16 "Desagrupar arquivos/diretórios"		\
+	17 "Compactar Arquivo/Diretório"		\
+	18 "Descompactar Arquivo/Diretório"		\
+	19 "Editar arquivo"				\
+	20 "Ir para a raiz"				\
+	21 "Voltar para o diretório inicial do gereneciamento"	\
+	22 "Voltar para o menu" )
 case $opcao in
 	1) carq ;;
 	2) aarq ;;
 	3) cdir ;;
 	4) adir ;;
 	5) vera ;;
-	6) bash /Projeto/config/gerenciador\ de\ arquivos/list2.sh ;;
+	6) bash /Projeto/.config/gerenciador\ de\ arquivos/list2.sh ;;
 	7) manual ;;
 	8) edir ;;
-	9) cd -; menu;;
+	9) cd ..; menu;;
 	10) copa ;;
 	11) mova ;;
-	12) n="d"; entrar ;;
-	13) n="p"; entrar ;;
-	14) x=0 ; name=$( dialog			\
+	12) rename ;;
+	13) n="d"; entrar ;;
+	14) n="p"; entrar ;;
+	15) x=0 ; name=$( dialog			\
 		--stdout				\
 		--title "Agrupar arquivos/diretórios"	\
 		--inputbox "Nome do arquivo final:"	\
 		0 0 ); aaed;;
-	15) daed ;;
-	16) comp ;;
-	17) desc ;;
-	18) edit ;;
-	19) cd /; menu;;
-	20) cd /Projeto; bash /Projeto/config/menu.sh;;
-	21) bash /Projeto/config/menu2.sh ;;
-	*) bash /Projeto/config/menu2.sh;;
+	16) daed ;;
+	17) comp ;;
+	18) desc ;;
+	19) edit ;;
+	20) cd /; menu;;
+	21) cd /Projeto; bash /Projeto/.config/menu.sh;;
+	22) bash /Projeto/.config/menu2.sh ;;
+	*) bash /Projeto/.config/menu2.sh;;
 esac
 }
 function carq(){
@@ -239,7 +241,7 @@ case $? in
 esac
 cd $arq
 case $? in
-	0) bash /Projeto/config/menu2.sh;;
+	0) bash /Projeto/.config/menu2.sh;;
 	1) dialog --msgbox "Diretório não encontrado, tente novamente" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
@@ -329,6 +331,28 @@ case $? in
 	0) dialog --msgbox "Arquivo/diretório movido com sucesso" 0 0 ; menu;;
 	1) dialog --msgbox "Arquivo/diretório ou destino não encontrado" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0 ; menu;;
+esac
+}
+function rename(){
+arq=$( dialog						\
+		--stdout				\
+		--title "Renomear"			\
+		--inputbox "Nome atual:" 0 0 )
+case $? in
+	1|255) menu;;
+esac
+arq2=$( dialog						\
+		--stdout				\
+		--title "Renomear"			\
+		--inputbox "Alterar para:" 0 0 )
+case $? in
+	1|255) menu;;
+esac
+mv $arq $arq2
+case $? in
+	0) dialog --msgbox "Renomeado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Arquivo/diretório não existente" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function adon(){

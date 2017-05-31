@@ -3,7 +3,7 @@ clear
 cd /Projeto
 function password(){
 if [ $pass == $senha ]; then
-	bash /Projeto/config/bemvindo.sh
+	bash /Projeto/.config/bemvindo.sh
 else
 	dialog --msgbox "Acesso Negado" 0 0
 	login

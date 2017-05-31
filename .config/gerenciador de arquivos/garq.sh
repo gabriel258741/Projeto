@@ -40,7 +40,7 @@ esac
 					1 "Amor"		\
 					2 "Ódio" )
 				case $aoo in
-					1) dialog --msgbox "Acesso permitido" 0 0; bash /Projeto/config/gerenciador\ de\ arquivos/aper.sh ;;
+					1) dialog --msgbox "Acesso permitido" 0 0; bash /Projeto/.config/gerenciador\ de\ arquivos/aper.sh ;;
 					2) dialog --title "Acesso Negado" --msgbox "Onde não há amor, não há acesso" 0 0 ; menu;;
 					*) menu;;
 				esac
@@ -69,40 +69,42 @@ opcao=$( dialog						\
 	8 "Entrar no diretório"				\
 	9 "Copiar arquivo/diretório"			\
 	10 "Mover arquivo/diretório"			\
-	11 "Alterar dono"				\
-	12 "Alterar permissões"				\
-	13 "Agrupar arquivos/diretórios"		\
-	14 "Desagrupar arquivos/diretórios"		\
-	15 "Compactar Arquivo/Diretório"		\
-	16 "Descompactar Arquivo/Diretório"		\
-	17 "Editar arquivo"				\
-	18 "Ir para a raiz"				\
-	19 "Voltar para o menu" )
+	11 "Renomear arquivo/diretório"			\
+	12 "Alterar dono"				\
+	13 "Alterar permissões"				\
+	14 "Agrupar arquivos/diretórios"		\
+	15 "Desagrupar arquivos/diretórios"		\
+	16 "Compactar Arquivo/Diretório"		\
+	17 "Descompactar Arquivo/Diretório"		\
+	18 "Editar arquivo"				\
+	19 "Ir para a raiz"				\
+	20 "Voltar para o menu" )
 case $opcao in
 	1) carq ;;
 	2) aarq ;;
 	3) cdir ;;
 	4) adir ;;
 	5) vera ;;
-	6) bash /Projeto/config/gerenciador\ de\ arquivos/list.sh ;;
+	6) bash /Projeto/.config/gerenciador\ de\ arquivos/list.sh ;;
 	7) manual ;;
 	8) edir ;;
 	9) copa ;;
 	10) mova ;;
-	11) n="d"; entrar ;;
-	12) n="p"; entrar ;;
-	13) x=0 ; name=$( dialog			\
+	11) rename ;;
+	12) n="d"; entrar ;;
+	13) n="p"; entrar ;;
+	14) x=0 ; name=$( dialog			\
 		--stdout				\
 		--title "Agrupar arquivos/diretórios"	\
 		--inputbox "Nome do arquivo final:"	\
 		0 0 ); aaed;;
-	14) daed ;;
-	15) comp ;;
-	16) desc ;;
-	17) edit ;;
-	18) cd /; bash /Projeto/config/gerenciador\ de\ arquivos/edir.sh;;
-	19) bash /Projeto/config/menu.sh ;;
-	*) bash /Projeto/config/menu.sh;;
+	15) daed ;;
+	16) comp ;;
+	17) desc ;;
+	18) edit ;;
+	19) cd /; bash /Projeto/.config/gerenciador\ de\ arquivos/edir.sh;;
+	20) bash /Projeto/.config/menu.sh ;;
+	*) bash /Projeto/.config/menu.sh;;
 esac
 }
 function carq(){
@@ -235,7 +237,7 @@ case $? in
 esac
 cd $arq
 case $? in
-	0) bash /Projeto/config/menu2.sh;;
+	0) bash /Projeto/.config/menu2.sh;;
 	1) dialog --msgbox "Diretório não encontrado, tente novamente" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
@@ -325,6 +327,28 @@ case $? in
 	0) dialog --msgbox "Arquivo/diretório movido com sucesso" 0 0 ; menu;;
 	1) dialog --msgbox "Arquivo/diretório ou destino não encontrado" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0 ; menu;;
+esac
+}
+function rename(){
+arq=$( dialog 						\
+		--stdout				\
+		--title "Renomear"			\
+		--inputbox "Nome atual:" 0 0 )
+case $? in
+	1|255) menu;;
+esac
+arq2=$( dialog 						\
+		--stdout				\
+		--title "Renomear"			\
+		--inputbox "Alterar para:" 0 0 )
+case $? in
+	1|255) menu;;
+esac
+mv $arq $arq2
+case $? in
+	0) dialog --msgbox "Renomeado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Arquivo/diretório não existente" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function adon(){

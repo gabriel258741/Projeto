@@ -20,8 +20,8 @@ case $opcao in
 	4) atlAPK ;;
 	5) atlREP ;;
 	6) lista ;;
-	7) bash /Projeto/config/menu.sh ;;
-	*) bash /Projeto/config/menu.sh ;;
+	7) bash /Projeto/.config/menu2.sh ;;
+	*) bash /Projeto/.config/menu2.sh ;;
 esac
 }
 function instapk(){

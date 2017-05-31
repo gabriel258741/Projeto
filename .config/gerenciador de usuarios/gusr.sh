@@ -22,8 +22,8 @@ case $OPCAO in
 	6) AUGR ;;
 	7) MUSR ;;
 	8) MGRP ;;
-	9) bash /Projeto/config/menu.sh ;;
-	*) bash /Projeto/config/menu.sh	;;
+	9) bash /Projeto/.config/menu.sh ;;
+	*) bash /Projeto/.config/menu.sh	;;
 esac
 }
 CUSR(){

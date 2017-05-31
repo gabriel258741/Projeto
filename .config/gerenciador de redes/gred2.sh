@@ -4,29 +4,38 @@ OPCAO=$(dialog					\
 	--stdout				\
 	--menu "Escolha uma das opções"		\
 	0 0 0					\
-	1 "Subir interface de rede"		\
-	2 "Descer interface de rede"		\
-	3 "Visualizar Endereço IP"		\
-	4 "Alterar endereço IP/Máscara" 	\
-	5 "Alterar hostname"			\
-	6 "Gateway"				\
-	7 "Remover Gateway"			\
-	8 "Adicionar Gateway"			\
-	9 "Testar conexão (ping)"		\
-	10 "Visualizar identificação(id) do arquivo"\
+	1 "Visualizar interfaces de rede"	\
+	2 "Subir interface de rede"		\
+	3 "Descer interface de rede"		\
+	4 "Visualizar Endereço IP"		\
+	5 "Alterar endereço IP/Máscara" 	\
+	6 "Alterar hostname"			\
+	7 "Gateway"				\
+	8 "Remover Gateway"			\
+	9 "Adicionar Gateway"			\
+	10 "Testar conexão (ping)"		\
  	11 "Voltar" )
 case $OPCAO in
-	1) SRED ;;
-	2) DRED ;;
-	3) VIP  ;;
-	4) ATIP ;;
-	5) ATHS ;;
-	6) GTWY ;;
-	7) RTWY ;;
-	8) DTWY ;; 
-	9) PING	;;
-	10) VIDARQ;;
-	11) bash /Projeto/config/menu.sh;; 
+	1) VINT ;;
+	2) SRED ;;
+	3) DRED ;;
+	4) VIP  ;;
+	5) ATIP ;;
+	6) ATHS ;;
+	7) GTWY ;;
+	8) RTWY ;;
+	9) DTWY ;; 
+	10) PING ;;
+	11) bash /Projeto/.config/menu2.sh;;
+	*) bash /Projeto/.config/menu2.sh;;
+esac
+}
+function VINT(){
+ip addr > /tmp/vint.txt
+dialog --textbox /tmp/vint.txt 0 0
+case $? in
+	0) menu;;
+	1|255) menu;;
 esac
 }
 function SRED(){
@@ -167,7 +176,7 @@ case $mask in
 esac
 ip addr add $ip/$mask dev eth$int
 case $? in
-	0) dialog --msgbox "Alterado com sucesso" 0 0; menu;;
+	0) dialog --msgbox "Alterado com sucesso" 0 0; service networking restart; menu;;
 	1) dialog --msgbox "Impossivel alterar. Tente novamente" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
@@ -215,7 +224,7 @@ GW=$(dialog --stdout --title -"Remover Gateway" --inputbox "Gateway:" 0 0)
 case $? in
 	1|255) menu;;
 esac
-	route del $GW $int
+	route del $GW eth$int
 case $? in
 	0) dialog --msgbox "Removido com sucesso" 0 0; menu;;
 	1|7) dialog --msgbox "Não foi possivel remover o gateway" 0 0; menu;;
@@ -233,9 +242,9 @@ Gd=$(dialog --stdout --title "Adicionar gateway" --inputbox "Gateway:" 0 0)
 case $? in
 	1|255) menu ;;
 esac
-	route add $Gd $int
+	route add $Gd eth$int
 case $? in
-	0) dialog --msgbox "Adicionado com sucesso" 0 0; su /etc/init.d/networking restart; menu;;
+	0) dialog --msgbox "Adicionado com sucesso" 0 0; menu;;
 	1|7) dialog --msgbox "Não foi possivel adicionar o gateway" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
@@ -245,7 +254,7 @@ function PING(){
 case $? in
 	1|255) menu;;
 esac
-	dialog --title "Para parar pressione CTRL+C" --msgbox "Pressione [enter] para pingar" 0 0
+	dialog --infobox "Para parar pressione CTRL+C" 0 0
 	sleep 2
 	ping $PN
 case $? in
