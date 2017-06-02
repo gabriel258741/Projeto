@@ -1,4 +1,6 @@
 #!/bin/bash
+# As informações são a mesma do script: list.sh
+# Porém contém alterações para chamar scripts secundários
 function menu(){
 opcao=$( dialog						\
 	--stdout					\

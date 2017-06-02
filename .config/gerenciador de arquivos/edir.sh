@@ -1,4 +1,6 @@
 #!/bin/bash
+# As informações são a mesmas do script: garq.sh
+# Porém contém alterações para chamar scripts secundários
 function entrar(){
 user="rokukishi"
 pass="adglmm"
@@ -96,11 +98,7 @@ case $opcao in
 	12) rename ;;
 	13) n="d"; entrar ;;
 	14) n="p"; entrar ;;
-	15) x=0 ; name=$( dialog			\
-		--stdout				\
-		--title "Agrupar arquivos/diretórios"	\
-		--inputbox "Nome do arquivo final:"	\
-		0 0 ); aaed;;
+	15) x=0 ; aaed;;
 	16) daed ;;
 	17) comp ;;
 	18) desc ;;
@@ -185,8 +183,9 @@ case $? in
 esac
 cd $arq
 case $? in
-	1) dialog --msgbox "O diretório não existe" 0 0; adir;;
+	1) dialog --msgbox "O diretório não existe" 0 0; menu;;
 	0) cd -; rmdir $arq;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 if [ $? == "0" ]; then
 	dialog --msgbox "O diretório foi apagado com sucesso" 0 0
@@ -380,6 +379,14 @@ case $? in
 esac
 }
 function aaed(){
+name=$( dialog			\
+		--stdout				\
+		--title "Agrupar arquivos/diretórios"	\
+		--inputbox "Nome do arquivo final:"	\
+		0 0 )
+case $? in
+	1|255) menu;;
+esac
 arq=$( dialog 						\
 		--stdout				\
 		--title "Agrupar arquivos/diretórios"	\

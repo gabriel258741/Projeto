@@ -8,6 +8,8 @@ arq=$( dialog						\
 case $? in
 	1|255) bash /Projeto/.config/gerenciador\ de\ arquivos/garq.sh;;
 esac
+# Pedirá para o usuário digitar o nome do arquivo ou diretório que deseja alterar as permissões
+# Caso pressione Cancel ou ESC, volta para o script gerenciador de arquivos
 arq2=$( dialog						\
 	--stdout					\
 	--title "Alterar permissão"			\
@@ -32,6 +34,10 @@ case $arq2 in
 	8) bash /Projeto/.config/gerenciador\ de\ arquivos/garq.sh;;
 	*) dialog --msgbox "Opção invalida" 0 0; bash /Projeto/.config/gerenciador\ de\ arquivos/garq.sh;;
 esac
+# Aqui é selecionada a permissão para o dono do arquivo ou diretório
+# Salvando o resultado em uma váriavel de acordo com o número da permissão
+# Pode voltar para o gerenciador de arquivos indo na opção 8
+# Caso pressione qualquer outra coisa é avisado sobre o erro e volta para o script gerenciador de arquivos
 }
 function perg(){
 arq2=$( dialog						\
@@ -58,6 +64,10 @@ case $arq2 in
 	8) menu;;
 	*) dialog --msgbox "Opção inválida" 0 0; bash /Projeto/.config/gerenciador\ de\ arquivos/garq.sh;;
 esac
+# Aqui é selecionada a permissão para o grupo do arquivo ou diretório
+# Salvando o resultado em outra váriavel de acordo com o número da permissão
+# Pode voltar para alterar permissões do dono selecionando a opção 8
+# Caso pressione qualquer outra coisa é avisado sobre o erro e volta para o script gerenciador de arquivos
 }
 function pero(){
 arq2=$( dialog						\
@@ -84,11 +94,19 @@ case $arq2 in
 	8) perg;;
 	*) dialog --msgbox "Opção invalida" 0 0; bash /Projeto/.config/gerenciador\ de\ arquivos/garq.sh;;
 esac
+# Aqui é selecionada a permissão para outros do arquivo ou diretório
+# Salvando o resultado em outra váriavel de acordo com o número da permissão
+# Pode voltar para alterar permissões do grupo selecionando a opção 8
+# Caso pressione qualquer outra coisa é avisado sobre o erro e volta para o script gerenciador de arquivos
 chmod $p1$p2$p3 $arq
+# Utilizando todas as variáveis salvas, alteramos as permissões do dono, grupo e outros
 case $? in
 	0) dialog --msgbox "Permissões alteradas com sucesso" 0 0; bash /Projeto/.config/gerenciador\ de\ arquivos/garq.sh;;
 	1) dialog --msgbox "Não foi possivel alterar permissões" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
+# Caso o retorno seja 0, as permissões foram alteradas, voltando assim para o script gerenciador de arquivos
+# Caso seja 1, Mostra a impossibilidade de alterar, voltando ao menu para refazer o processo
+# Caso o retorno seja desconhecido, mostra o erro ocorrido e volta ao menu, para refazer o processo
 }
 menu

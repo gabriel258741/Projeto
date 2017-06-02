@@ -18,6 +18,8 @@ case $opcao in
 	5) bash /Projeto/.config/gerenciador\ de\ arquivos/garq.sh ;;
 	*) bash /Projeto/.config/gerenciador\ de\ arquivos/garq.sh ;;
 esac
+# Opções que permite o usuário escolher entre 4 listagens diferentes com suas respectivas caracteristicas mencionadas
+# Ao pressionar qualquer outra coisa q não seja uma das opções, voltará para o script gerenciador de arquivos
 }
 function list1(){
 arq=$( dialog						\
@@ -28,7 +30,10 @@ arq=$( dialog						\
 case $? in
 	1|255) menu;;
 esac
+# Pedirá para o usuário digitar o nome do diretório a ser listado
 ls $arq > /tmp/listar.txt
+# Será listados apenas os nomes dos arquivos e diretórios não ocultos no diretório escolhido pelo usuário
+# Mandando a listagem para um arquivo temporário
 case $? in
 	0) dialog	 					\
 		--title "Listagem"				\
@@ -37,6 +42,9 @@ case $? in
 		--msgbox "Diretório não existe" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
+# Caso o retorno seja 0 Mostrará a lista via dialog
+# Caso seja 2 o diretório é inexistente
+# Caso o retorno seja desconhecido, mostrará o erro ocorrido e voltará ao menu assim como os outros retornos
 }
 function list2(){
 arq=$( dialog						\
@@ -47,15 +55,21 @@ arq=$( dialog						\
 case $? in
 	1|255) menu;;
 esac
+# Pedirá para o usuário digitar o nome do diretório a ser listado
 ls -la $arq > /tmp/listar.txt
+# Será listados os nomes dos arquivos e diretórios não ocultos e seu tamanho em Kbytesno no diretório escolhido pelo usuário
+# Mandando a listagem para um arquivo temporário
 case $? in
 	0) dialog	 					\
 		--title "Listagem"				\
-		--textbox /tmp/listar.txt 0 0; menu;;
+ 		--textbox /tmp/listar.txt 0 0; menu;;
 	2) dialog						\
 		--msgbox "Diretório não existe" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
+# Caso o retorno seja 0 Mostrará a lista via dialog
+# Caso seja 2 o diretório é inexistente
+# Caso o retorno seja desconhecido, mostrará o erro ocorrido e voltará ao menu assim como os outros retornos
 }
 function list3(){
 arq=$( dialog						\
@@ -66,7 +80,10 @@ arq=$( dialog						\
 case $? in
 	1|255) menu;;
 esac
+# Pedirá para o usuário digitar o nome do diretório a ser listado
 ls -a $arq > /tmp/listar.txt
+# Será listados apenas os nomes dos arquivos e diretórios ocultos no diretório escolhido pelo usuário
+# Mandando a listagem para um arquivo temporário
 case $? in
 	0) dialog	 					\
 		--title "Listagem"				\
@@ -75,6 +92,9 @@ case $? in
 		--msgbox "Diretório não existe" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
+# Caso o retorno seja 0 Mostrará a lista via dialog
+# Caso seja 2 o diretório é inexistente
+# Caso o retorno seja desconhecido, mostrará o erro ocorrido e voltará ao menu assim como os outros retornos
 }
 function list4(){
 arq=$( dialog						\
@@ -85,7 +105,10 @@ arq=$( dialog						\
 case $? in
 	1|255) menu;;
 esac
+# Pedirá para o usuário digitar o nome do diretório a ser listado
 ls -lah $arq > /tmp/listar.txt
+# Será listados os nomes, permissões, dono, grupo, modificação, tamanho e criação dos arquivos e diretórios no diretório escolhido pelo usuário
+# Mandando a listagem para um arquivo temporário
 case $? in
 	0) dialog	 					\
 		--title "Listagem"				\
@@ -94,5 +117,8 @@ case $? in
 		--msgbox "Diretório não existe" 0 0; menu;;
 	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
+# Caso o retorno seja 0 Mostrará a lista via dialog
+# Caso seja 2 o diretório é inexistente
+# Caso o retorno seja desconhecido, mostrará o erro ocorrido e voltará ao menu assim como os outros retornos
 }
 menu

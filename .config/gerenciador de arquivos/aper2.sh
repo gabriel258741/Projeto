@@ -1,4 +1,6 @@
 #!/bin/bash
+# As informações são as mesmas do script: aper.sh
+# Porém contém alterações para chamar scripts secundários
 function menu(){
 arq=$( dialog						\
 	--stdout					\
