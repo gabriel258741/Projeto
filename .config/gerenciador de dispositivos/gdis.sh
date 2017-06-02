@@ -11,7 +11,7 @@ OPCAO=$(dialog					\
 	5 "Informações de disco e partições"	\
 	6 "Visualizar modulos carregados"	\
 	7 "Informações do barramento PCI" 	\
-	8 "Utilização de memória"		\
+	8 "Utilização de memória RAM"		\
 	9 "Quantidade de INODES disponíveis"	\
 	10 "Versão do Kernel "			\
 	11 "Todas informações do sistema"	\

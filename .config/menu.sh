@@ -6,7 +6,7 @@ opcao=$( dialog						\
 	0 0 0						\
 	1 "Gerenciador de Arquivos"			\
 	2 "Gerenciador de Usuários"			\
-	3 "Gerenciados de Redes"			\
+	3 "Gerenciador de Redes"			\
 	4 "Gerenciador de Dispositivos"			\
 	5 "Gerenciador de Pacotes"	)
 case $opcao in
