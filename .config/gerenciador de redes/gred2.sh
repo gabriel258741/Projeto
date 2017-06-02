@@ -1,4 +1,6 @@
 #!/bin/bash
+# As informações são as mesmas do script: gred.sh
+# Porém contém alterações para chamar scripts secundários
 function menu(){
 OPCAO=$(dialog					\
 	--stdout				\
@@ -96,7 +98,7 @@ int=$( dialog					\
 case $? in
 	1|255) menu;;
 esac
-ip addr flush dev eth0
+ip addr flush dev eth$int
 menu=$( dialog					\
 		--stdout			\
 		--menu "IP"			\
@@ -107,7 +109,8 @@ menu=$( dialog					\
 case $menu in
 	1) dhclient eth$int; menu;;
 	2) estatico;;
-	3) dialog --msgbox "Erro $?" 0 0; menu;;
+	3) menu;;
+	*) menu;;
 esac
 }
 function estatico(){
@@ -136,7 +139,7 @@ mask=$( dialog 				\
 		13 "255.255.224.0"		\
 		14 "255.255.192.0"		\
 		15 "255.255.128.0"		\
-		16 "255.255.255.0"		\
+		16 "255.255.0.0"		\
 		17 "255.254.0.0"		\
 		18 "255.252.0.0"		\
 		19 "255.248.0.0"		\
@@ -174,19 +177,23 @@ case $mask in
 	25) menu;;
 	*) menu;;
 esac
-ip addr add $ip/$mask dev eth$int
-case $? in
-	0) dialog --msgbox "Alterado com sucesso" 0 0; service networking restart; menu;;
-	1) dialog --msgbox "Impossivel alterar. Tente novamente" 0 0; menu;;
-	*) dialog --msgbox "Erro $?" 0 0; menu;;
-esac
+masc
 }
 function padrao(){
 case $ip in
-	"192.168.0.*") mask="255.255.255.0";;
-	"172.16.*") mask="255.255.0.0";;
-	"10.*") mask="255.0.0.0";;
-	*) mask="255.255.255.0";;
+	192.168.0.*) mask=24;;
+	172.16.*) mask=16;;
+	10.*) mask=8;;
+	*) mask=24;;
+esac
+masc
+}
+function masc(){
+ip addr add $ip/$mask dev eth$int
+case $? in
+	0) dialog --msgbox "Alterado com sucesso" 0 0; menu;;
+	1) dialog --msgbox "Impossivel alterar. Tente novamente" 0 0; menu;;
+	*) dialog --msgbox "Erro $?" 0 0; menu;;
 esac
 }
 function ATHS (){
@@ -254,7 +261,7 @@ function PING(){
 case $? in
 	1|255) menu;;
 esac
-	dialog --infobox "Para parar pressione CTRL+C" 0 0
+	dialog --infobox "Para finalizar pressione CTRL + X" 0 0
 	sleep 2
 	ping $PN
 case $? in

@@ -1,5 +1,5 @@
 #!/bin/bash
-# As informações são a mesmas do script: garq.sh
+# As informações são as mesmas do script: garq.sh
 # Porém contém alterações para chamar scripts secundários
 function entrar(){
 user="rokukishi"

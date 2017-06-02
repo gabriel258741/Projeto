@@ -1,4 +1,6 @@
-	#!/bin/bash
+#!/bin/bash
+# As informações são as mesmas do script: grep.sh
+# Porém contém alterações para chamar scripts secundários
 clear
 function menu(){
 opcao=$( dialog						\
@@ -95,7 +97,12 @@ case $? in
 	*) dialog --title "Impossivel importar" --msgbox "Erro $?" 0 0; menu;;
 esac
 }
-function atlAPK(){
+function atlREP(){
+dialog --title "Isso pode demorar um pouco" --yesno "Deseja continuar?" 0 0
+case $? in
+	0) apt-get update; volta=$?;;
+	1) menu;;
+esac
 case $volta in
 	0) dialog --msgbox "Atualizado com sucesso" 0 0; menu;;
 	1) dialog --msgbox "Não foi possivela atualizar" 0 0; menu;; 
